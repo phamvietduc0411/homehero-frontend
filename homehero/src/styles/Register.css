@@ -1,0 +1,291 @@
+/* Layout chia đôi */
+.register-split-container {
+  min-height: 100vh;
+  display: flex;
+  background: #f5f6fa;
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
+.register-left {
+  flex: 1;
+  background: #f5f6fa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 32px;
+  box-sizing: border-box;
+}
+
+.register-logo {
+  margin-bottom: 24px;
+}
+
+.register-title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.register-sub {
+  font-size: 1.1rem;
+  margin-bottom: 24px;
+  color: #222;
+  text-align: center;
+}
+
+.register-form-container {
+  background: #f9f9f9; /* Light background */
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+  width: 100%;
+  max-width: 450px; /* Adjust max-width */
+  margin-top: 20px; /* Space below sub-title */
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Spacing between inputs */
+}
+
+.register-input {
+  padding: 12px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.2s;
+}
+.register-input:focus {
+  border: 1.5px solid #d354a7;
+}
+
+.register-btn {
+  padding: 12px;
+  background: linear-gradient(90deg, #e67e22 0%, #d354a7 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  box-shadow: 0 2px 8px rgba(211, 84, 167, 0.08);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.register-btn:hover {
+  background: linear-gradient(90deg, #d354a7 0%, #e67e22 100%);
+}
+
+.register-login-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 32px;
+}
+.register-login-link span {
+  font-size: 1.08rem;
+  color: #222;
+}
+.register-login-btn {
+  padding: 10px 28px;
+  border: 2px solid #d354a7;
+  background: #fff;
+  color: #d354a7;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+.register-login-btn:hover {
+  background: #d354a7;
+  color: #fff;
+}
+
+.register-right {
+  flex: 1;
+  background: linear-gradient(135deg, #e67e22 0%, #d354a7 100%);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 32px;
+  box-sizing: border-box;
+}
+.register-right h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+  text-align: center;
+}
+.register-right p {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  text-align: center;
+  max-width: 420px;
+}
+
+@media (max-width: 900px) {
+  .register-split-container {
+    flex-direction: column;
+  }
+  .register-left, .register-right {
+    flex: unset;
+    width: 100%;
+    min-height: 50vh;
+    padding: 32px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .register-form-container {
+    max-width: 98vw;
+    padding: 20px;
+  }
+  .register-right p {
+    font-size: 1rem;
+  }
+}
+
+/* --- New Form Card Styling --- */
+.registration-form-card {
+  background: #fff; /* White background for the card */
+  padding: 30px 40px; /* Adjust padding */
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* More pronounced shadow */
+  width: 100%;
+  max-width: 550px; /* Adjust max-width for the card */
+  margin: auto; /* Center the card in the left pane */
+}
+
+.registration-form-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 30px;
+  text-align: left; /* Align title to the left */
+  color: #333;
+}
+
+.registration-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Responsive 2-column grid */
+  gap: 20px; /* Spacing between grid items */
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1; /* Span across all columns */
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.form-input {
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px; /* Slightly smaller border-radius */
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+  width: 100%; /* Ensure inputs fill the column */
+  box-sizing: border-box; /* Include padding and border in element's total width */
+}
+
+.form-input:focus {
+  border-color: #5b9bd5; /* Standard blue focus color */
+  box-shadow: 0 0 5px rgba(91, 155, 213, 0.5);
+}
+
+/* Styling for Select (Dropdown) */
+.form-input select {
+  appearance: none; /* Remove default browser styling */
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23000000%22%20d%3D%22M287%2C114.7L146.2%2C255.5L5.4%2C114.7c-7.8-7.8-20.5-7.8-28.3%2C0s-7.8%2C20.5%2C0%2C28.3l142.8%2C142.8c4.1%2C4.1%2C9.5%2C5.9%2C14.9%2C5.9s10.8-1.8%2C14.9-5.9L287%2C143c7.8-7.8%2C7.8-20.5%2C0-28.3S294.8%2C106.9%2C287%2C114.7z%22%2F%3E%3C%2Fsvg%3E'); /* Custom dropdown arrow */
+  background-repeat: no-repeat;
+  background-position: right 15px top 50%;
+  background-size: 12px auto;
+  padding-right: 30px; /* Make space for the arrow */
+}
+
+/* Styling for Radio Buttons */
+.gender-options {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Space between radio options */
+  margin-top: 8px; /* Align with other inputs */
+}
+
+.gender-options label {
+  margin-bottom: 0; /* Remove bottom margin for label */
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.gender-options input[type="radio"] {
+  margin-right: 8px;
+  /* Add custom styling for radio buttons if needed */
+}
+
+/* Styling for Date Input (Calendar icon) */
+.form-input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.5) sepia(1) saturate(5) hue-rotate(175deg); /* Make icon visible and colored */
+  cursor: pointer;
+}
+
+/* Styling for Submit Button */
+.submit-btn {
+  grid-column: 1 / -1; /* Span across all columns */
+  padding: 12px;
+  background-color: #4285f4; /* Google blue */
+  color: #fff;
+  border: none;
+  border-radius: 5px; /* Match input border-radius */
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px; /* Space above button */
+  transition: background-color 0.2s ease;
+}
+
+.submit-btn:hover {
+  background-color: #3367d6; /* Darker blue on hover */
+}
+
+/* Media Query for smaller screens */
+@media (max-width: 600px) {
+  .registration-form-grid {
+    grid-template-columns: 1fr; /* Stack columns on small screens */
+  }
+  .registration-form-card {
+    padding: 20px;
+  }
+  .registration-form-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+  .form-group.full-width {
+    grid-column: auto; /* Reset span */
+  }
+}
+
+/* Optional: Clean up old styles if they are not needed elsewhere */
+/*
+.register-logo, .register-title, .register-sub, .register-form-container, .register-form, .register-input, .register-btn, .register-login-link, .register-login-link span, .register-login-btn {
+    *\/ /* Add display: none; or remove these if they are not used */
+/*}*/ 

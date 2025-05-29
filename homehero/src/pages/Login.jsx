@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import '../styles/Login.css';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -45,7 +47,7 @@ function Login() {
         <a href="#" className="lotus-forgot">Forgot password?</a>
         <div className="lotus-create-account">
           <span>Don't have an account?</span>
-          <button className="lotus-create-btn">CREATE NEW</button>
+          <button className="lotus-create-btn" onClick={() => navigate('/register')}>CREATE NEW</button>
         </div>
       </div>
       <div className="login-right">

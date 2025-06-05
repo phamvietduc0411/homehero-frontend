@@ -1,0 +1,378 @@
+.dashboard-container {
+  display: flex; /* Use flexbox for main sidebar + content layout */
+  min-height: 100vh; /* Ensure container takes at least full viewport height */
+  background-color: #f8f9fe; /* Light background color for the main area */
+}
+
+.dashboard-sidebar {
+  width: 260px; /* Fixed width for the sidebar */
+  background-color: #172b4d; /* Dark background color for the sidebar */
+  color: #adb5bd; /* Default text color in sidebar */
+  padding: 20px 0; /* Padding top and bottom */
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0; /* Prevent sidebar from shrinking */
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px 20px 20px; /* Padding and bottom margin */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Separator line */
+}
+
+.sidebar-header h2 {
+  color: #ffffff; /* Logo/App name color */
+  margin: 0;
+  font-size: 1.5em;
+}
+
+.sidebar-header i {
+  margin-right: 10px;
+  color: #5e72e4; /* Argon icon color */
+}
+
+.sidebar-toggle-btn {
+  display: none; /* Hide toggle button by default on desktop */
+  /* Add styles for mobile view */
+}
+
+.sidebar-menu {
+  flex-grow: 1; /* Allow menu to take up available space */
+  padding: 20px 0;
+}
+
+.sidebar-menu ul {
+  list-style: none;
+  padding: 0; /* Ensure no padding on the list */
+  margin: 0; /* Ensure no margin on the list */
+}
+
+.sidebar-menu li {
+  padding: 0; /* Remove padding from list items */
+  margin: 0; /* Remove margin from list items */
+}
+
+.sidebar-menu li a {
+  display: block;
+  color: #adb5bd;
+  text-decoration: none;
+  padding: 10px 20px; /* Add horizontal padding back to the link */
+  margin-bottom: 5px;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.sidebar-menu li a:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-menu li a i {
+  margin-right: 15px; /* Space between icon and text */
+  color: #5e72e4; /* Icon color */
+}
+
+.sidebar-documentation {
+  padding: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1); /* Separator */
+}
+
+.sidebar-documentation h6 {
+  color: #8898aa; /* Documentation header color */
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  font-size: 0.8em;
+}
+
+.sidebar-documentation ul {
+  list-style: none;
+}
+
+.sidebar-documentation li a {
+  display: block;
+  color: #adb5bd;
+  text-decoration: none;
+  padding: 5px 0;
+  transition: color 0.2s ease;
+}
+
+.sidebar-documentation li a:hover {
+  color: #ffffff;
+}
+
+.sidebar-documentation i {
+  margin-right: 10px;
+  color: #8898aa; /* Documentation icon color */
+}
+
+.dashboard-main-content {
+  flex-grow: 1; /* Allow main content to take remaining space */
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content-header {
+  background-color: #f8f9fe; /* Light background */
+  padding: 20px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e9ecef; /* Subtle separator */
+}
+
+.search-bar input[type="text"] {
+  border: 1px solid #cad1d7;
+  border-radius: 0.375rem; /* Rounded corners */
+  padding: 0.625rem 0.75rem;
+  font-size: 0.875rem;
+  transition: all 0.15s ease-in-out;
+}
+
+.search-bar button {
+  background: none;
+  border: none;
+  padding: 0.625rem 0.75rem;
+  cursor: pointer;
+  color: #8898aa;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Space between icons and user info */
+}
+
+.user-section i {
+  color: #8898aa; /* Icon color */
+  font-size: 1.2em;
+  cursor: pointer;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between avatar and name */
+}
+
+.user-info img {
+  width: 36px; /* Avatar size */
+  height: 36px;
+  border-radius: 50%; /* Circular avatar */
+}
+
+.user-info span {
+  color: #32325d; /* User name color */
+  font-weight: 600;
+}
+
+.main-content-body {
+  flex-grow: 1; /* Allow body to take remaining height */
+  padding: 30px;
+}
+
+.dashboard-title {
+  margin-bottom: 20px;
+}
+
+.dashboard-title h3 {
+  color: #32325d; /* Title color */
+  margin-bottom: 5px;
+}
+
+.breadcrumb {
+  font-size: 0.875rem;
+  color: #8898aa;
+}
+
+.breadcrumb a {
+  color: #8898aa;
+  text-decoration: none;
+}
+
+.breadcrumb span {
+  color: #525f7f; /* Active breadcrumb item color */
+  font-weight: 600;
+}
+
+.action-buttons {
+  margin-bottom: 30px;
+}
+
+/* Basic Button Styles (based on visual) - You might use Bootstrap buttons directly */
+.btn {
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  border-radius: 0.4375rem; /* Rounded buttons */
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #5e72e4; /* Argon primary blue */
+  border-color: #5e72e4;
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: #566ed3;
+  border-color: #566ed3;
+}
+
+.btn-secondary {
+  color: #212529;
+  background-color: #f4f5f7; /* Light grey */
+  border-color: #f4f5f7;
+}
+
+.btn-secondary:hover {
+  color: #212529;
+  background-color: #e8ebed;
+  border-color: #e8ebed;
+}
+
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  border-radius: 0.3125rem;
+}
+
+.info-cards {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(250px, 1fr)
+  ); /* Responsive grid */
+  gap: 20px; /* Space between cards */
+  margin-bottom: 30px;
+}
+
+.card {
+  background-color: #ffffff;
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Subtle shadow */
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Align items to the top */
+}
+
+.card-body {
+  flex-grow: 1;
+  padding-right: 1rem; /* Space between text and icon */
+}
+
+.card-title {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  color: #8898aa;
+  margin-bottom: 0.25rem;
+}
+
+.card-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #32325d;
+  margin-bottom: 0.5rem;
+}
+
+.card-trend {
+  font-size: 0.875rem;
+}
+
+.card-trend .text-success {
+  color: #2dce89; /* Green color for positive trend */
+  font-weight: bold;
+}
+
+.card-trend .text-muted {
+  color: #8898aa;
+  font-weight: 400;
+}
+
+.card-icon {
+  width: 4rem; /* Icon container size */
+  height: 4rem;
+  border-radius: 50%; /* Circular icon container */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  color: #ffffff;
+  /* Background colors for icons - customize based on card type */
+  background-color: #f56036; /* Example: Orange for Total Traffic */
+}
+
+/* Example background colors for other card icons */
+/*
+.info-cards .card:nth-child(2) .card-icon { background-color: #fb6340; } // New Users - different orange
+.info-cards .card:nth-child(3) .card-icon { background-color: #2dce89; } // Sales - green
+.info-cards .card:nth-child(4) .card-icon { background-color: #11c1f5; } // Performance - blue
+*/
+
+.charts-section {
+  display: grid;
+  grid-template-columns: 1fr; /* Stack charts by default */
+  gap: 20px;
+}
+
+@media (min-width: 768px) {
+  /* Adjust for medium screens and up */
+  .charts-section {
+    grid-template-columns: repeat(2, 1fr); /* Two columns for charts */
+  }
+}
+
+.chart-card {
+  background-color: #ffffff;
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.chart-card .card-header h5 {
+  text-transform: uppercase;
+  font-size: 0.625rem;
+  color: #8898aa;
+  margin: 0; /* Remove default margin */
+}
+
+.chart-card .card-header h4 {
+  font-size: 1.25rem;
+  color: #32325d;
+  margin: 0;
+}
+
+.chart-controls .btn {
+  margin-left: 5px;
+}
+
+.chart-card .card-body {
+  flex-grow: 1;
+  /* Styles for the chart area itself will depend on the charting library */
+}
+
+.chart-placeholder {
+  height: 200px; /* Placeholder height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e9ecef; /* Light grey placeholder */
+  color: #8898aa;
+  font-size: 1.2em;
+  border-radius: 0.375rem;
+}

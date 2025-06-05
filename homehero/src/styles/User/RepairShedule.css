@@ -1,0 +1,57 @@
+.repair-schedule-content {
+  background-color: #ffffff; /* White background for the form area */
+  padding: 30px; /* Add padding around the form */
+  border-radius: 0.5rem; /* Rounded corners */
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Subtle shadow */
+}
+
+.repair-schedule-content h3 {
+  color: #32325d; /* Dark color for the title */
+  margin-bottom: 25px; /* Space below the title */
+  font-size: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 20px; /* Space between form groups */
+}
+
+.form-group label {
+  display: block; /* Make labels block elements for better spacing */
+  margin-bottom: 8px; /* Space between label and input */
+  font-weight: 600; /* Bold labels */
+  color: #32325d; /* Dark color for labels */
+  font-size: 0.9em;
+}
+
+.form-control {
+  display: block; /* Make inputs block elements */
+  width: 100%; /* Full width inputs */
+  padding: 0.625rem 0.75rem; /* Padding inside inputs */
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #8898aa;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #cad1d7; /* Border color */
+  border-radius: 0.375rem; /* Rounded corners */
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control::placeholder {
+  color: #adb5bd; /* Placeholder text color */
+  opacity: 1; /* Ensure placeholder is visible */
+}
+
+.form-control:focus {
+  border-color: #5e72e4; /* Highlight color on focus */
+  outline: 0;
+  box-shadow: 0 3px 9px rgba(50, 50, 93, 0.1), 0 2px 6px rgba(0, 0, 0, 0.08); /* Subtle shadow on focus */
+}
+
+/* Style for the textarea */
+textarea.form-control {
+  min-height: 80px; /* Minimum height for the textarea */
+  resize: vertical; /* Allow vertical resizing */
+}
+
+/* Re-using .btn-primary style from DashboardPage.css, ensure it's applied */ 

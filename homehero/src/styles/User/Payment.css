@@ -1,0 +1,82 @@
+/* Styles for the Payment page */
+
+.payment-options-container {
+  max-width: 600px; /* Limit the width of the options container */
+  margin: 0 auto; /* Center the container */
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.payment-options-container h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.payment-option {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.payment-option:hover {
+  border-color: #007bff; /* Highlight on hover */
+}
+
+.payment-option.selected {
+  border-color: #28a745; /* Green border for selected */
+  background-color: #e9f8ee; /* Light green background */
+}
+
+.payment-option h4 {
+  margin-top: 0;
+  margin-bottom: 5px;
+  color: #007bff;
+}
+
+.payment-option p {
+  margin-bottom: 0;
+  color: #555;
+  font-size: 0.9em;
+}
+
+.payment-success-message, .momo-qr-code-section {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.payment-success-message {
+  background-color: #d4edda; /* Light green for success */
+  color: #155724; /* Dark green text */
+  border: 1px solid #c3e6cb;
+}
+
+.momo-qr-code-section {
+  background-color: #e2e6ea; /* Light grey for online */
+  color: #383d41; /* Dark grey text */
+  border: 1px solid #d6d8db;
+  text-align: center;
+}
+
+.momo-qr-code-section h4 {
+  color: #007bff; /* Blue title */
+}
+
+.qr-code-placeholder {
+  width: 150px; /* Placeholder size */
+  height: 150px;
+  background-color: #fff; /* White background for placeholder */
+  margin: 15px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #ccc;
+  font-size: 0.9em;
+  color: #888;
+} 

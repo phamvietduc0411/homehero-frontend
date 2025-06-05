@@ -1,0 +1,67 @@
+.sidebar-menu {
+  flex-grow: 1; /* Allow menu to take up available space */
+  padding: 20px 0;
+}
+
+.sidebar-menu ul {
+  list-style: none;
+  padding: 0; /* Ensure no padding on the list */
+  margin: 0; /* Ensure no margin on the list */
+}
+
+.sidebar-menu li {
+  padding: 0; /* Remove padding from list items */
+  margin: 0; /* Remove margin from list items */
+}
+
+.sidebar-menu li a {
+  display: block;
+  color: #adb5bd;
+  text-decoration: none;
+  padding: 10px 20px; /* Add horizontal padding back to the link */
+  margin-bottom: 5px;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.sidebar-menu li a:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-menu li a i {
+  margin-right: 15px; /* Space between icon and text */
+  color: #5e72e4; /* Icon color */
+}
+
+.sidebar-documentation {
+  padding: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1); /* Separator */
+}
+
+.sidebar-documentation h6 {
+  color: #8898aa; /* Documentation header color */
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  font-size: 0.8em;
+}
+
+.sidebar-documentation ul {
+  list-style: none;
+}
+
+.sidebar-documentation li a {
+  display: block;
+  color: #adb5bd;
+  text-decoration: none;
+  padding: 5px 0;
+  transition: color 0.2s ease;
+}
+
+.sidebar-documentation li a:hover {
+  color: #ffffff;
+}
+
+.sidebar-documentation i {
+  margin-right: 10px;
+  color: #8898aa; /* Documentation icon color */
+} 

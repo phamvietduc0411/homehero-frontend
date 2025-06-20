@@ -15,9 +15,9 @@ const Payment = () => {
   return (
     <div className="dashboard-container">
       {/* User Sidebar Menu */}
-      <div className="dashboard-sidebar">
+      {/* <div className="dashboard-sidebar">
         <UserSidebarMenu />
-      </div>
+      </div> */}
 
       {/* Main Content Area for Payment */}
       <div className="dashboard-main-content">

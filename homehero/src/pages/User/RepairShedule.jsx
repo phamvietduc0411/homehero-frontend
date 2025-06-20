@@ -9,9 +9,9 @@ const RepairShedule = () => {
   return (
     <div className="dashboard-container"> 
       {/* User Sidebar Menu */}
-      <div className="dashboard-sidebar">
+      {/* <div className="dashboard-sidebar">
         <UserSidebarMenu />
-      </div>
+      </div> */}
 
       {/* Main Content Area for Repair Scheduling */}
       <div className="dashboard-main-content"> {/* Use the same main content class */}

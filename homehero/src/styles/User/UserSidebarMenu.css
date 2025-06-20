@@ -12,30 +12,77 @@
 .sidebar-menu li {
   padding: 0; /* Remove padding from list items */
   margin: 0; /* Remove margin from list items */
+  position: relative; /* For positioning the NEW badge */
 }
 
 .sidebar-menu li a {
-  display: block;
+  display: flex;
+  align-items: center;
   color: #adb5bd;
   text-decoration: none;
-  padding: 10px 20px; /* Add horizontal padding back to the link */
+  padding: 12px 20px; /* Add horizontal padding back to the link */
   margin-bottom: 5px;
-  transition: color 0.2s ease, background-color 0.2s ease;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  position: relative;
 }
 
 .sidebar-menu li a:hover {
   color: #ffffff;
   background-color: rgba(255, 255, 255, 0.1);
+  transform: translateX(4px);
+}
+
+.sidebar-menu li a.active {
+  color: #ffffff;
+  background: linear-gradient(45deg, #5e72e4, #825ee4);
+  box-shadow: 0 4px 15px rgba(94, 114, 228, 0.3);
 }
 
 .sidebar-menu li a i {
   margin-right: 15px; /* Space between icon and text */
   color: #5e72e4; /* Icon color */
+  width: 16px; /* Fixed width for consistent alignment */
+  text-align: center;
+}
+
+.sidebar-menu li a.active i {
+  color: #ffffff;
+}
+
+/* NEW Badge */
+.new-badge {
+  background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 10px;
+  margin-left: auto;
+  animation: pulse 2s infinite;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .sidebar-documentation {
   padding: 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.1); /* Separator */
+  margin-top: 20px;
 }
 
 .sidebar-documentation h6 {
@@ -43,6 +90,8 @@
   margin-bottom: 15px;
   text-transform: uppercase;
   font-size: 0.8em;
+  font-weight: 600;
+  letter-spacing: 1px;
 }
 
 .sidebar-documentation ul {
@@ -50,18 +99,84 @@
 }
 
 .sidebar-documentation li a {
-  display: block;
+  display: flex;
+  align-items: center;
   color: #adb5bd;
   text-decoration: none;
-  padding: 5px 0;
-  transition: color 0.2s ease;
+  padding: 8px 0;
+  transition: all 0.3s ease;
+  border-radius: 4px;
 }
 
 .sidebar-documentation li a:hover {
   color: #ffffff;
+  padding-left: 8px;
+}
+
+.sidebar-documentation li a.active {
+  color: #5e72e4;
+  font-weight: 600;
 }
 
 .sidebar-documentation i {
   margin-right: 10px;
   color: #8898aa; /* Documentation icon color */
-} 
+  width: 14px;
+  text-align: center;
+}
+
+.sidebar-documentation a:hover i {
+  color: #5e72e4;
+}
+
+/* Hover effects */
+.sidebar-menu li a {
+  overflow: hidden;
+}
+
+.sidebar-menu li a::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background: linear-gradient(45deg, #5e72e4, #825ee4);
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+}
+
+.sidebar-menu li a:hover::before,
+.sidebar-menu li a.active::before {
+  transform: scaleY(1);
+}
+
+/* Shopping cart icon special styling */
+.sidebar-menu li a i.fas.fa-shopping-cart {
+  color: #28a745;
+}
+
+.sidebar-menu li a.active i.fas.fa-shopping-cart {
+  color: #ffffff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .sidebar-menu {
+    padding: 15px 0;
+  }
+  
+  .sidebar-menu li a {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+  
+  .sidebar-menu li a i {
+    margin-right: 12px;
+  }
+  
+  .new-badge {
+    font-size: 0.6rem;
+    padding: 1px 4px;
+  }
+}

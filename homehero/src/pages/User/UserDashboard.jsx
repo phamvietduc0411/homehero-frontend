@@ -4,8 +4,10 @@ import UserSidebarMenu from '../../components/User/UserSidebarMenu';
 import ProductStore from '../User/ProductStore';
 
 import '../../styles/User/UserDashboard.css';
-import RepairShedule from './RepairShedule';
 import Payment from './Payment';
+import BookingFlowManager from '../../styles/User/BookingFlowManagement';
+import BookingTracking from './BookingTracking';
+import RepairSchedule from '../User/RepairSchedule';
 
 const DashboardHome = () => (
   <div className="page-content">
@@ -285,6 +287,15 @@ const PlaceholderPage = ({ title, description, icon }) => (
 const UserDashboard = () => {
   // ✅ State quản lý menu active
   const [activeMenu, setActiveMenu] = useState('Trang chủ');
+  const [currentView, setCurrentView] = useState('home');
+  const [bookingData, setBookingData] = useState(null); // State để lưu booking data
+
+const handleNavigateToTracking = (bookingData) => {
+  setBookingData(bookingData);
+  setCurrentView('tracking');
+  setActiveMenu('Theo dõi đơn hàng'); // Đổi menu active
+};
+
 
   // ✅ Function render content dựa trên menu được chọn
   const renderContent = () => {
@@ -292,11 +303,15 @@ const UserDashboard = () => {
       case 'Trang chủ':
         return <DashboardHome />;
       case 'Đặt lịch sửa chữa':
-        return <RepairShedule />;
+        return <BookingFlowManager />;
       case 'Đặt mua sản phẩm':
         return <ProductStore />;
       case 'Lịch sử đơn hàng':
         return <OrderHistory />;
+      case 'Đặt lịch sửa chữa':
+      // return <RepairSchedule onNavigateToTracking={handleNavigateToTracking} />;
+      // case 'Theo dõi đơn hàng':
+      // return <BookingTracking initialBookingData={bookingData} />;
       case 'Thông báo':
         return <PlaceholderPage 
           title="Thông báo" 

@@ -1,82 +1,507 @@
-/* Styles for the Payment page */
+/* Payment.css */
 
-.payment-options-container {
-  max-width: 600px; /* Limit the width of the options container */
-  margin: 0 auto; /* Center the container */
+.payment-container {
+  max-width: 800px;
+  margin: 0 auto;
   padding: 20px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
 }
 
-.payment-options-container h3 {
-  text-align: center;
+.summary-section, 
+.payment-method-section, 
+.support-section, 
+.actions-section {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+/* Headers */
+.summary-section h3, 
+.payment-method-section h3, 
+.support-section h3 {
+  font-size: 18px;
+  font-weight: 600;
   margin-bottom: 20px;
   color: #333;
 }
 
+/* Service Summary */
+.service-info {
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.service-header {
+  margin-bottom: 20px;
+}
+
+.service-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.service-meta {
+  display: flex;
+  gap: 20px;
+  font-size: 14px;
+  color: #666;
+}
+
+.service-details {
+  border-top: 1px solid #e2e8f0;
+  padding-top: 15px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+.detail-item {
+  color: #333;
+}
+
+.detail-price {
+  color: #666;
+  font-weight: 500;
+}
+
+/* Summary Calculations */
+.summary-calculations {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.calc-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+}
+
+.calc-row.discount {
+  color: #10b981;
+}
+
+.calc-row.total {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+/* Payment Methods */
+.payment-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
 .payment-option {
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 15px;
-  margin-bottom: 15px;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 20px;
   cursor: pointer;
-  transition: border-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .payment-option:hover {
-  border-color: #007bff; /* Highlight on hover */
+  border-color: #6366f1;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.1);
 }
 
 .payment-option.selected {
-  border-color: #28a745; /* Green border for selected */
-  background-color: #e9f8ee; /* Light green background */
+  border-color: #6366f1;
+  background: #f8faff;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.2);
 }
 
-.payment-option h4 {
-  margin-top: 0;
-  margin-bottom: 5px;
-  color: #007bff;
+.payment-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
-.payment-option p {
-  margin-bottom: 0;
-  color: #555;
-  font-size: 0.9em;
-}
-
-.payment-success-message, .momo-qr-code-section {
-  margin-top: 20px;
-  padding: 20px;
-  border-radius: 8px;
-}
-
-.payment-success-message {
-  background-color: #d4edda; /* Light green for success */
-  color: #155724; /* Dark green text */
-  border: 1px solid #c3e6cb;
-}
-
-.momo-qr-code-section {
-  background-color: #e2e6ea; /* Light grey for online */
-  color: #383d41; /* Dark grey text */
-  border: 1px solid #d6d8db;
+.payment-icon {
+  font-size: 32px;
+  width: 60px;
   text-align: center;
 }
 
-.momo-qr-code-section h4 {
-  color: #007bff; /* Blue title */
+.payment-info {
+  flex: 1;
 }
 
-.qr-code-placeholder {
-  width: 150px; /* Placeholder size */
+.payment-info h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.payment-info p {
+  color: #666;
+  font-size: 14px;
+}
+
+.payment-radio input {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* Payment Details */
+.payment-details {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.cash-instructions h5, 
+.transfer-info h5 {
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.cash-instructions ul {
+  margin-bottom: 20px;
+  padding-left: 20px;
+}
+
+.cash-instructions li {
+  margin-bottom: 8px;
+  color: #666;
+}
+
+/* Bank Transfer Details */
+.bank-details {
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.bank-info-grid {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.bank-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: white;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+.bank-item .label {
+  font-weight: 500;
+  color: #666;
+  min-width: 120px;
+}
+
+.bank-item .value {
+  flex: 1;
+  color: #333;
+  font-weight: 500;
+}
+
+.bank-item .value.amount {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.copy-btn {
+  padding: 5px 8px;
+  background: #e2e8f0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.3s ease;
+}
+
+.copy-btn:hover {
+  background: #cbd5e1;
+}
+
+/* QR Code Section */
+.qr-section {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.qr-section h6 {
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.qr-code {
+  display: inline-block;
+  text-align: center;
+}
+
+.qr-image {
+  width: 150px;
   height: 150px;
-  background-color: #fff; /* White background for placeholder */
-  margin: 15px auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.qr-code p {
+  font-size: 12px;
+  color: #666;
+}
+
+/* Transfer Instructions */
+.transfer-instructions {
+  background: #fef3cd;
+  border: 1px solid #fde047;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.transfer-instructions h6 {
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #92400e;
+}
+
+.transfer-instructions ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.transfer-instructions li {
+  margin-bottom: 5px;
+  color: #92400e;
+  font-size: 14px;
+}
+
+/* Payment Buttons and Status */
+.confirm-payment-btn {
+  width: 100%;
+  padding: 12px 20px;
+  background: #10b981;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.confirm-payment-btn:hover {
+  background: #059669;
+  transform: translateY(-2px);
+}
+
+.processing-status {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px dashed #ccc;
-  font-size: 0.9em;
-  color: #888;
-} 
+  gap: 10px;
+  padding: 15px;
+  background: #fef3cd;
+  border-radius: 8px;
+  color: #92400e;
+  font-weight: 500;
+}
+
+.success-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px;
+  background: #d1fae5;
+  border-radius: 8px;
+  color: #065f46;
+  font-weight: 600;
+}
+
+.success-icon {
+  font-size: 20px;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid #92400e;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Support Section */
+.support-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.support-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: #f8fafc;
+  border-radius: 8px;
+}
+
+.support-icon {
+  font-size: 24px;
+  width: 40px;
+  text-align: center;
+}
+
+.support-info h4 {
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.support-info p {
+  color: #666;
+  font-size: 14px;
+}
+
+/* Actions Section */
+.actions-section {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  flex: 1;
+  min-width: 140px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.action-btn.primary {
+  background: #6366f1;
+  color: white;
+}
+
+.action-btn.primary:hover {
+  background: #5855eb;
+  transform: translateY(-2px);
+}
+
+.action-btn.secondary {
+  background: #f3f4f6;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.action-btn.secondary:hover {
+  background: #e5e7eb;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .payment-container {
+    padding: 15px;
+  }
+  
+  .summary-section, 
+  .payment-method-section, 
+  .support-section, 
+  .actions-section {
+    padding: 20px;
+  }
+  
+  .service-meta {
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .payment-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+  
+  .bank-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+  
+  .bank-item .value {
+    word-break: break-all;
+  }
+  
+  .support-options {
+    grid-template-columns: 1fr;
+  }
+  
+  .actions-section {
+    flex-direction: column;
+  }
+  
+  .action-btn {
+    flex: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .payment-container {
+    padding: 10px;
+  }
+  
+  .payment-icon {
+    font-size: 24px;
+    width: 50px;
+  }
+  
+  .bank-item .label {
+    min-width: 100px;
+    font-size: 13px;
+  }
+  
+  .qr-image {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .confirm-payment-btn {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+}

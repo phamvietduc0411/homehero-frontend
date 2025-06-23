@@ -1,0 +1,442 @@
+/* BookingTracking.css */
+
+.tracking-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.status-section, 
+.details-section, 
+.technician-section, 
+.history-section, 
+.actions-section {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+/* Status Section */
+.status-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 30px;
+}
+
+.current-status {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.status-icon {
+  font-size: 32px;
+}
+
+.status-info h3 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.status-info p {
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.status-info small {
+  color: #999;
+  font-size: 12px;
+}
+
+.cancel-btn {
+  padding: 8px 16px;
+  background: #fee2e2;
+  color: #dc2626;
+  border: 1px solid #fca5a5;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.cancel-btn:hover {
+  background: #fecaca;
+}
+
+/* Progress Bar */
+.progress-container {
+  position: relative;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 3px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  transition: width 0.5s ease;
+  border-radius: 3px;
+}
+
+.progress-steps {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+}
+
+.step-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.step.completed .step-circle {
+  background: #10b981;
+  color: white;
+}
+
+.step.cancelled .step-circle {
+  background: #ef4444;
+  color: white;
+}
+
+.step-label {
+  font-size: 12px;
+  color: #666;
+  font-weight: 500;
+}
+
+.step.completed .step-label {
+  color: #10b981;
+  font-weight: 600;
+}
+
+/* Details Section */
+.details-section h3, 
+.technician-section h3, 
+.history-section h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 12px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-item .label {
+  font-weight: 500;
+  color: #666;
+  min-width: 120px;
+}
+
+.detail-item .value {
+  color: #333;
+  text-align: right;
+  flex: 1;
+}
+
+.detail-item .value.price {
+  font-weight: 600;
+  color: #10b981;
+}
+
+.detail-item .value.price.actual {
+  color: #dc2626;
+}
+
+/* Technician Section */
+.technician-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  background: #f8fafc;
+  border-radius: 10px;
+}
+
+.technician-avatar {
+  font-size: 48px;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e2e8f0;
+  border-radius: 50%;
+}
+
+.technician-info {
+  flex: 1;
+}
+
+.technician-info h4 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.technician-details {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 8px;
+}
+
+.technician-details .rating {
+  color: #f59e0b;
+  font-weight: 500;
+}
+
+.technician-details .experience {
+  color: #666;
+  font-size: 14px;
+}
+
+.technician-info .phone {
+  color: #6366f1;
+  font-weight: 500;
+}
+
+.contact-btn {
+  padding: 10px 20px;
+  background: #6366f1;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.contact-btn:hover {
+  background: #5855eb;
+  transform: translateY(-2px);
+}
+
+/* History Timeline */
+.history-timeline {
+  position: relative;
+}
+
+.timeline-item {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 40px;
+  width: 2px;
+  height: calc(100% + 5px);
+  background: #e5e7eb;
+}
+
+.timeline-marker {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #10b981;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: white;
+  flex-shrink: 0;
+}
+
+.timeline-content {
+  flex: 1;
+  padding-top: 5px;
+}
+
+.timeline-status {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.timeline-note {
+  color: #666;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.timeline-time {
+  color: #999;
+  font-size: 12px;
+}
+
+/* Actions Section */
+.actions-section {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  flex: 1;
+  min-width: 140px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.action-btn.primary {
+  background: #6366f1;
+  color: white;
+}
+
+.action-btn.primary:hover {
+  background: #5855eb;
+  transform: translateY(-2px);
+}
+
+.action-btn.secondary {
+  background: #f3f4f6;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.action-btn.secondary:hover {
+  background: #e5e7eb;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .tracking-container {
+    padding: 15px;
+  }
+  
+  .status-section, 
+  .details-section, 
+  .technician-section, 
+  .history-section, 
+  .actions-section {
+    padding: 20px;
+  }
+  
+  .status-header {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .progress-steps {
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+  }
+  
+  .step {
+    flex: none;
+    min-width: 80px;
+  }
+  
+  .detail-item {
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .detail-item .value {
+    text-align: left;
+  }
+  
+  .technician-card {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .technician-details {
+    justify-content: center;
+  }
+  
+  .actions-section {
+    flex-direction: column;
+  }
+  
+  .action-btn {
+    flex: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .status-info h3 {
+    font-size: 20px;
+  }
+  
+  .step-circle {
+    width: 35px;
+    height: 35px;
+    font-size: 14px;
+  }
+  
+  .step-label {
+    font-size: 11px;
+  }
+  
+  .technician-avatar {
+    font-size: 36px;
+    width: 60px;
+    height: 60px;
+  }
+  
+  .timeline-marker {
+    width: 35px;
+    height: 35px;
+    font-size: 14px;
+  }
+}

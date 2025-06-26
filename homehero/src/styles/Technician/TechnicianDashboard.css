@@ -793,4 +793,51 @@ status-icon.status-completed {
 .status-icon.status-progress {
   color: #f59e0b;
 }
+.header-profile {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-date {
+  text-align: right;
+}
+
+.date-label {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.date-value {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin: 0;
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.logout-btn:hover {
+  background-color: #dc2626;
+}
+
+.logout-btn .w-4 {
+  width: 1rem;
+  height: 1rem;
+}
+
 

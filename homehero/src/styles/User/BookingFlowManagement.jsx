@@ -14,8 +14,8 @@ const BookingFlowManager = () => {
 
   // Handle navigation from form to tracking
   const handleNavigateToTracking = (newBookingData) => {
-    setBookingData(newBookingData);
-    setCurrentPage('tracking');
+    //setBookingData(newBookingData);
+    //setCurrentPage('tracking');
   };
 
   // Handle navigation from tracking to payment (when status is Completed)

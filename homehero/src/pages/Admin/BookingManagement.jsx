@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../../styles/Admin/BookingManagement.css';
 
 
+
 const BookingManagement = () => {
   // State management
   const [bookings, setBookings] = useState([]);
@@ -18,6 +19,16 @@ const BookingManagement = () => {
   const [formData, setFormData] = useState({});
   const [statistics, setStatistics] = useState({});
   
+  // NEW: State cho service và technician data
+  const [serviceData, setServiceData] = useState({
+    services: [],
+    filteredServices: []
+  });
+  const [technicianData, setTechnicianData] = useState({
+    technicians: [],
+    filteredTechnicians: []
+  });
+  
   // NEW: State cho address data
   const [addressData, setAddressData] = useState({
     districts: [],
@@ -28,6 +39,147 @@ const BookingManagement = () => {
   const API_BASE_URL = 'https://localhost:7190/api/Booking';
 
   const statusOptions = ['All', 'Pending', 'Confirmed', 'InProgress', 'Completed', 'Cancelled'];
+
+  // 🔧 NEW: Service và Technician API Functions
+  const fetchServiceNames = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL.replace('/Booking', '')}/Service/names`);
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Services loaded:', data);
+        setServiceData(prev => ({ 
+          ...prev, 
+          services: data,
+          filteredServices: data 
+        }));
+      } else {
+        console.warn('Service API not available, using fallback data');
+        // Fallback data
+        const fallbackServices = [
+          'Air Conditioner Repair', 'Air Conditioner Installation', 'Air Conditioner Cleaning',
+          'Refrigerator Repair', 'Washing Machine Repair', 'Dishwasher Repair',
+          'Oven Repair', 'Microwave Repair', 'Water Heater Repair',
+          'Electrical Wiring', 'Plumbing Services', 'General Maintenance'
+        ];
+        setServiceData(prev => ({ 
+          ...prev, 
+          services: fallbackServices,
+          filteredServices: fallbackServices 
+        }));
+      }
+    } catch (err) {
+      console.error('Error fetching services:', err);
+      // Fallback data
+      const fallbackServices = [
+        'Air Conditioner Repair', 'Air Conditioner Installation', 'Air Conditioner Cleaning',
+        'Refrigerator Repair', 'Washing Machine Repair', 'Dishwasher Repair',
+        'Oven Repair', 'Microwave Repair', 'Water Heater Repair',
+        'Electrical Wiring', 'Plumbing Services', 'General Maintenance'
+      ];
+      setServiceData(prev => ({ 
+        ...prev, 
+        services: fallbackServices,
+        filteredServices: fallbackServices 
+      }));
+    }
+  };
+
+  const fetchTechnicianNames = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL.replace('/Booking', '')}/Technician/names`);
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Technicians loaded:', data);
+        setTechnicianData(prev => ({ 
+          ...prev, 
+          technicians: data,
+          filteredTechnicians: data 
+        }));
+      } else {
+        console.warn('Technician API not available, using fallback data');
+        // Fallback data
+        const fallbackTechnicians = [
+          'Nguyen Van A', 'Tran Thi B', 'Le Van C', 'Pham Thi D',
+          'Hoang Van E', 'Vu Thi F', 'Do Van G', 'Bui Thi H',
+          'Dang Van I', 'Ngo Thi J', 'Ly Van K', 'Mai Thi L'
+        ];
+        setTechnicianData(prev => ({ 
+          ...prev, 
+          technicians: fallbackTechnicians,
+          filteredTechnicians: fallbackTechnicians 
+        }));
+      }
+    } catch (err) {
+      console.error('Error fetching technicians:', err);
+      // Fallback data
+      const fallbackTechnicians = [
+        'Nguyen Van A', 'Tran Thi B', 'Le Van C', 'Pham Thi D',
+        'Hoang Van E', 'Vu Thi F', 'Do Van G', 'Bui Thi H',
+        'Dang Van I', 'Ngo Thi J', 'Ly Van K', 'Mai Thi L'
+      ];
+      setTechnicianData(prev => ({ 
+        ...prev, 
+        technicians: fallbackTechnicians,
+        filteredTechnicians: fallbackTechnicians 
+      }));
+    }
+  };
+
+  const searchServices = async (keyword) => {
+    if (!keyword.trim()) {
+      setServiceData(prev => ({ ...prev, filteredServices: prev.services }));
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_BASE_URL.replace('/Booking', '')}/Service/search?keyword=${encodeURIComponent(keyword)}`);
+      if (response.ok) {
+        const data = await response.json();
+        setServiceData(prev => ({ ...prev, filteredServices: data }));
+      } else {
+        // Fallback: filter locally
+        const filtered = serviceData.services.filter(service => 
+          service.toLowerCase().includes(keyword.toLowerCase())
+        );
+        setServiceData(prev => ({ ...prev, filteredServices: filtered }));
+      }
+    } catch (err) {
+      console.error('Error searching services:', err);
+      // Fallback: filter locally
+      const filtered = serviceData.services.filter(service => 
+        service.toLowerCase().includes(keyword.toLowerCase())
+      );
+      setServiceData(prev => ({ ...prev, filteredServices: filtered }));
+    }
+  };
+
+  const searchTechnicians = async (keyword) => {
+    if (!keyword.trim()) {
+      setTechnicianData(prev => ({ ...prev, filteredTechnicians: prev.technicians }));
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_BASE_URL.replace('/Booking', '')}/Technician/search?keyword=${encodeURIComponent(keyword)}`);
+      if (response.ok) {
+        const data = await response.json();
+        setTechnicianData(prev => ({ ...prev, filteredTechnicians: data }));
+      } else {
+        // Fallback: filter locally
+        const filtered = technicianData.technicians.filter(technician => 
+          technician.toLowerCase().includes(keyword.toLowerCase())
+        );
+        setTechnicianData(prev => ({ ...prev, filteredTechnicians: filtered }));
+      }
+    } catch (err) {
+      console.error('Error searching technicians:', err);
+      // Fallback: filter locally
+      const filtered = technicianData.technicians.filter(technician => 
+        technician.toLowerCase().includes(keyword.toLowerCase())
+      );
+      setTechnicianData(prev => ({ ...prev, filteredTechnicians: filtered }));
+    }
+  };
 
   // 🏙️ NEW: Address API Functions
   const fetchDistricts = async () => {
@@ -321,6 +473,8 @@ const BookingManagement = () => {
     fetchAllBookings();
     fetchBookingStatistics();
     fetchDistricts(); // NEW: Load districts on init
+    fetchServiceNames(); // NEW: Load services on init
+    fetchTechnicianNames(); // NEW: Load technicians on init
   }, []);
 
   // 🔍 Handle search with debounce
@@ -849,26 +1003,64 @@ const BookingManagement = () => {
                 <div className="form-row">
                   <div className="form-group">
                     <label className="form-label">Service Name *</label>
-                    <input
-                      type="text"
-                      value={modalType === 'view' ? selectedBooking?.serviceName || '' : formData.serviceName || ''}
-                      onChange={(e) => setFormData({...formData, serviceName: e.target.value})}
-                      disabled={modalType === 'view'}
-                      className="form-input"
-                      placeholder="Enter service name"
-                    />
+                    {modalType === 'view' ? (
+                      <input
+                        type="text"
+                        value={selectedBooking?.serviceName || ''}
+                        disabled
+                        className="form-input"
+                      />
+                    ) : (
+                      <div className="searchable-dropdown">
+                        <input
+                          type="text"
+                          value={formData.serviceName || ''}
+                          onChange={(e) => {
+                            setFormData({...formData, serviceName: e.target.value});
+                            searchServices(e.target.value);
+                          }}
+                          className="form-input"
+                          placeholder="Type to search services..."
+                          list="service-options"
+                        />
+                        <datalist id="service-options">
+                          {serviceData.filteredServices.map(service => (
+                            <option key={service} value={service} />
+                          ))}
+                        </datalist>
+                      </div>
+                    )}
                   </div>
                   
                   <div className="form-group">
                     <label className="form-label">Technician</label>
-                    <input
-                      type="text"
-                      value={modalType === 'view' ? selectedBooking?.technicianName || '' : formData.technicianName || ''}
-                      onChange={(e) => setFormData({...formData, technicianName: e.target.value})}
-                      disabled={modalType === 'view'}
-                      className="form-input"
-                      placeholder="Enter technician name"
-                    />
+                    {modalType === 'view' ? (
+                      <input
+                        type="text"
+                        value={selectedBooking?.technicianName || ''}
+                        disabled
+                        className="form-input"
+                      />
+                    ) : (
+                      <div className="searchable-dropdown">
+                        <input
+                          type="text"
+                          value={formData.technicianName || ''}
+                          onChange={(e) => {
+                            setFormData({...formData, technicianName: e.target.value});
+                            searchTechnicians(e.target.value);
+                          }}
+                          className="form-input"
+                          placeholder="Type to search technicians..."
+                          list="technician-options"
+                        />
+                        <datalist id="technician-options">
+                          {technicianData.filteredTechnicians.map(technician => (
+                            <option key={technician} value={technician} />
+                          ))}
+                        </datalist>
+                      </div>
+                    )}
                   </div>
                 </div>
                 
@@ -1112,9 +1304,36 @@ const BookingManagement = () => {
           color: #666;
         }
 
-        /* Required field indicator */
-        .form-label::after {
-          content: "";
+        /* NEW: Searchable dropdown styling */
+        .searchable-dropdown {
+          position: relative;
+        }
+
+        .searchable-dropdown input[list] {
+          width: 100%;
+        }
+
+        .searchable-dropdown input[list]::-webkit-calendar-picker-indicator {
+          display: none;
+        }
+
+        /* Enhanced form input for searchable fields */
+        .form-input[list] {
+          background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+          background-repeat: no-repeat;
+          background-position: right 12px center;
+          background-size: 16px 12px;
+          padding-right: 40px;
+        }
+
+        .form-input[list]:focus {
+          background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%230984e3' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+        }
+
+        /* Loading and data states */
+        .form-input[list][placeholder*="search"]:empty::before {
+          content: "Loading...";
+          color: #999;
         }
 
         .form-label:has(~ .form-input[required])::after,

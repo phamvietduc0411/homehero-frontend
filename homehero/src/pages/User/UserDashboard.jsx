@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import UserSidebarMenu from '../../components/User/UserSidebarMenu';
 import ProductStore from '../User/ProductStore';
 
@@ -8,6 +8,10 @@ import Payment from './Payment';
 import BookingFlowManager from '../../styles/User/BookingFlowManagement';
 import BookingTracking from './BookingTracking';
 import RepairSchedule from '../User/RepairSchedule';
+
+//Login
+import { LogOut } from 'lucide-react';
+import { tokenManager } from '../Login_ver2';
 
 const DashboardHome = () => (
   <div className="page-content">
@@ -286,10 +290,42 @@ const PlaceholderPage = ({ title, description, icon }) => (
 
 const UserDashboard = () => {
   // ✅ State quản lý menu active
+  const navigate = useNavigate();
   const [activeMenu, setActiveMenu] = useState('Trang chủ');
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [currentView, setCurrentView] = useState('home');
   const [bookingData, setBookingData] = useState(null); // State để lưu booking data
 
+  useEffect(() => {
+    const checkAuth = () => {
+      if (!tokenManager.isAuthenticated()) {
+        navigate('/');
+        return;
+      }
+      
+      const user = tokenManager.getUserData();
+      if (user.userType !== 'User') {
+        navigate('/');
+        return;
+      }
+      
+      setUserData(user);
+      setLoading(false);
+    };
+
+    checkAuth();
+  }, [navigate]);
+
+  const handleLogout = () => {
+    tokenManager.removeToken();
+    tokenManager.removeUserData();
+    navigate('/');
+  };
+
+  if (loading) {
+    return <div className="loading">Đang tải...</div>;
+  }
 const handleNavigateToTracking = (bookingData) => {
   setBookingData(bookingData);
   setCurrentView('tracking');
@@ -360,7 +396,15 @@ const handleNavigateToTracking = (bookingData) => {
             />
             <span className="logo-text">HomeHero</span>
           </div>
+          <div className="user-info">
+            <span className="user-name">Xin chào, {userData?.name}</span>
+            <button onClick={handleLogout} className="logout-btn">
+              <LogOut className="w-4 h-4" />
+              Đăng xuất
+            </button>
+          </div>
         </div>
+        
         
         {/* ✅ Truyền props đúng cách */}
         <UserSidebarMenu 

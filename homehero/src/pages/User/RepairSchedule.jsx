@@ -30,7 +30,7 @@ const RepairSchedule = ({ onNavigateToTracking }) => {
   const [availableTechnicians, setAvailableTechnicians] = useState([]);
 
   // 🔗 API Configuration
-  const API_BASE_URL = 'https://localhost:7190/api';
+  const API_BASE_URL = 'https://homeheroapi-c6hngtg0ezcyeggg.southeastasia-01.azurewebsites.net/api';
 
   const timeSlots = [
     '08:00 - 10:00',

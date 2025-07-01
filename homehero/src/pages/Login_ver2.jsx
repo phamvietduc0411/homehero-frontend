@@ -5,7 +5,7 @@ import { Eye, EyeOff, User, Wrench } from 'lucide-react';
 import '../styles/Login_ver2.css';
 
 
-const API_BASE_URL = 'https://localhost:7190';
+const API_BASE_URL = 'https://homeheroapi-c6hngtg0ezcyeggg.southeastasia-01.azurewebsites.net';
 
 const authService = {
   async login(loginData) {
@@ -61,33 +61,33 @@ const authService = {
 
 const tokenManager = {
   setToken(token) {
-    localStorage.setItem('authToken', token);
+    sessionStorage.setItem('authToken', token);
   },
   
   getToken() {
-    return localStorage.getItem('authToken'); // ✅ FIX: chỉ có 1 return
+    return sessionStorage.getItem('authToken');
   },
   
   removeToken() {
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('userData');
+    sessionStorage.removeItem('authToken'); 
+    sessionStorage.removeItem('userData'); 
   },
   
   setUserData(userData) {
-    localStorage.setItem('userData', JSON.stringify(userData));
+    sessionStorage.setItem('userData', JSON.stringify(userData));
   },
   
   getUserData() {
-    const data = localStorage.getItem('userData');
+    const data = sessionStorage.getItem('userData');
     return data ? JSON.parse(data) : null;
   },
   
   removeUserData() {
-    localStorage.removeItem('userData');
+    sessionStorage.removeItem('userData');
   },
 
   isAuthenticated() {
-    return !!this.getToken() && !!this.getUserData(); // ✅ FIX: đơn giản hóa
+    return !!this.getToken() && !!this.getUserData(); 
   }
 };
 

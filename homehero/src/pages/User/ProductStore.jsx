@@ -15,7 +15,7 @@ const ProductStore = () => {
   const [categories, setCategories] = useState(['all']);
 
   // 🔗 API Configuration
-  const API_BASE_URL = 'https://localhost:7190/api/Product'; // Adjust your API URL
+  const API_BASE_URL = 'https://homeheroapi-c6hngtg0ezcyeggg.southeastasia-01.azurewebsites.net/api/Product'; // Adjust your API URL
 
   // 🚀 Fetch Products from API
   const fetchProducts = async (searchQuery = '', category = '') => {

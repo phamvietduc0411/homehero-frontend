@@ -44,6 +44,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/admin" element={<AdminDashboard />} />
+     <Route path="/user/payment" element={<Payment/>} /> 
       <Route path="/user" element={
         <ProtectedRoute requiredUserType="User">
           <UserDashboard />

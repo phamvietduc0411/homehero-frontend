@@ -6,7 +6,7 @@ import '../../styles/User/RepairSchedule.css'; // Import the specific CSS for th
 
 
 
-const RepairSchedule = ({ onNavigateToTracking }) => {
+const RepairSchedule = ({ onNavigateToTracking, userData}) => {
   const [formData, setFormData] = useState({
     serviceType: '', // Now stores ServiceId instead of service type string
     applianceType: '', // This will be the specific service from Services table
@@ -39,6 +39,15 @@ const RepairSchedule = ({ onNavigateToTracking }) => {
     '16:00 - 18:00',
     '19:00 - 21:00'
   ];
+  useEffect(() => {
+    if (userData) {
+      setFormData(prev => ({
+        ...prev,
+        customerName: userData.name || '',
+        customerPhone: userData.phone || ''
+      }));
+    }
+  }, [userData]);
 
   // 🚀 Fetch Service Categories on component mount
   useEffect(() => {
@@ -242,7 +251,7 @@ const RepairSchedule = ({ onNavigateToTracking }) => {
         ward: addressParts[1] || '',
         district: addressParts[2] || '',
         city: addressParts[3] || 'TP.HCM',
-        userId: 2 // Fixed userId theo yêu cầu
+        userId: userData?.id || 2 // Fixed userId theo yêu cầu
       };
 
       // 🚀 Call API với debug logging chi tiết
@@ -306,27 +315,14 @@ const RepairSchedule = ({ onNavigateToTracking }) => {
       // 🎉 Success handling - cải thiện xử lý response
       const responseData = result.data || result;
       const bookingResult = {
-        bookingId: responseData.bookingId || responseData.id,
-        bookingCode: responseData.bookingCode || responseData.code || `BK${Date.now()}`,
-        status: responseData.status || 'Pending',
-        customerName: formData.customerName,
-        customerPhone: formData.customerPhone,
-        serviceType: serviceCategories.find(c => c.categoryId == formData.serviceType)?.categoryName,
-        serviceName: availableServices.find(s => s.serviceId == formData.applianceType)?.serviceName,
-        description: formData.description,
-        address: formData.address,
-        preferredDate: formData.preferredDate,
-        preferredTime: formData.preferredTime,
-        urgencyLevel: formData.urgencyLevel,
-        totalPrice: responseData.totalPrice || priceInfo?.totalPrice,
-        createdAt: responseData.createdAt || new Date().toISOString(),
+        bookingId: responseData.bookingId,
         message: result.message || 'Đặt lịch thành công!'
       };
       
       console.log('✅ Booking Result:', bookingResult);
       
       // 🎉 Success - Show alert first, then navigate
-      alert(`✅ ${bookingResult.message}\nMã đơn hàng: ${bookingResult.bookingCode}`);
+      alert(`✅ ${bookingResult.message}\nMã đơn hàng: ${bookingResult.bookingId}`);
       
       // Reset form after successful submission
       setFormData({
@@ -336,8 +332,8 @@ const RepairSchedule = ({ onNavigateToTracking }) => {
         preferredDate: '',
         preferredTime: '',
         address: '',
-        customerName: '',
-        customerPhone: '',
+        customerName: userData?.name || '',
+        customerPhone: userData?.phone || '',
         urgencyLevel: 'normal'
       });
       setPriceInfo(null);
@@ -347,10 +343,9 @@ const RepairSchedule = ({ onNavigateToTracking }) => {
       if (onNavigateToTracking) {
         setTimeout(() => {
           try {
-            onNavigateToTracking(bookingResult);
+            onNavigateToTracking({ bookingId: bookingResult.bookingId });
           } catch (navError) {
             console.error('Navigation error:', navError);
-            // Fallback: không navigate nếu có lỗi
           }
         }, 2000);
       }

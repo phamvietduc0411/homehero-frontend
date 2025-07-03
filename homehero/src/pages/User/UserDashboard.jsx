@@ -339,7 +339,7 @@ const handleNavigateToTracking = (bookingData) => {
       case 'Trang chủ':
         return <DashboardHome />;
       case 'Đặt lịch sửa chữa':
-        return <BookingFlowManager />;
+        return <BookingFlowManager userData={userData}/>;
       case 'Đặt mua sản phẩm':
         return <ProductStore />;
       case 'Lịch sử đơn hàng':
@@ -365,6 +365,8 @@ const handleNavigateToTracking = (bookingData) => {
           title="Thanh toán/Hóa đơn" 
           description="Quản lý phương thức thanh toán và xem hóa đơn"
           icon="💳"
+          userData={userData}
+          onBackToHome={() => setActiveMenu('Trang chủ')}
         />;
       case 'Hỗ trợ / Liên hệ':
         return <PlaceholderPage 

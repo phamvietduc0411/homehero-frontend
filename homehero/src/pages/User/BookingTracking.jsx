@@ -1,36 +1,210 @@
 import React, { useState, useEffect } from 'react';
 import '../../styles/User/BookingTracking.css';
 
-const BookingTracking = ({ initialBookingData, onNavigateToPayment, onBackToForm }) => {
-  // Initialize with passed data or sample data
-  const [bookingData, setBookingData] = useState(initialBookingData || {
-    bookingId: 'BK20250623001',
-    status: 'Confirmed',
-    customerName: 'Nguyễn Văn A',
-    customerPhone: '0912345678',
-    serviceType: 'Sửa chữa điều hòa',
-    applianceType: 'Điều hòa inverter',
-    description: 'Điều hòa không lạnh, tiếng ồn khi hoạt động',
-    address: '123 Đường ABC, Quận 1, TP.HCM',
-    preferredDate: '2025-06-25',
-    preferredTime: '14:00 - 16:00',
-    urgencyLevel: 'normal',
-    estimatedPrice: '350,000',
-    actualPrice: null,
-    technicianInfo: {
-      name: 'Trần Văn Bình',
-      phone: '0987654321',
-      rating: 4.8,
-      experience: '5 năm kinh nghiệm',
-      avatar: '👨‍🔧'
-    },
-    createdAt: '2025-06-23 14:30',
-    updatedAt: '2025-06-23 15:15',
-    statusHistory: [
-      { status: 'Pending', timestamp: '2025-06-23 14:30', note: 'Đơn hàng đã được tạo' },
-      { status: 'Confirmed', timestamp: '2025-06-23 15:15', note: 'Đã phân công thợ và xác nhận lịch hẹn' }
-    ]
-  });
+
+const BookingTracking = ({ bookingId, onNavigateToPayment, onBackToForm }) => {
+  const [bookingData, setBookingData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchBookingData = async () => {
+      if (!bookingId) {
+        setError('Không có thông tin đơn hàng');
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          `https://homeheroapi-c6hngtg0ezcyeggg.southeastasia-01.azurewebsites.net/api/Booking/${bookingId}`
+        );
+        
+        if (!response.ok) {
+          throw new Error('Không thể tải thông tin đơn hàng');
+        }
+
+        const result = await response.json();
+        
+        // Map API data sang format của component
+        const mappedData = {
+          bookingId: result.bookingId,
+          status: result.status,
+          customerName: result.customerName || 'N/A',
+          customerPhone: result.customerPhone || result.phone || 'N/A',
+          serviceName: result.serviceName || 'N/A',
+          description: result.problemDescription || 'N/A',
+          address: result.address || 'N/A',
+          preferredDate: new Date(result.bookingDate).toISOString().split('T')[0],
+          preferredTime: result.preferredTimeSlot || 'N/A',
+          urgencyLevel: result.urgencyLevel || 'normal',
+          estimatedPrice: result.totalPrice ? result.totalPrice.toLocaleString('vi-VN') : '0',
+          actualPrice: result.status === 'Completed' && result.totalPrice ? 
+                      result.totalPrice.toLocaleString('vi-VN') : null,
+          technicianInfo: result.technicianName && result.technicianName !== 'Chưa phân công' ? {
+            name: result.technicianName,
+            phone: 'Liên hệ qua admin', // API chưa trả phone của technician
+            rating: 4.8,
+            experience: '5 năm kinh nghiệm',
+            avatar: '👨‍🔧'
+          } : null,
+          createdAt: new Date().toLocaleString('vi-VN'), // API chưa có createdAt
+          updatedAt: new Date().toLocaleString('vi-VN'), // API chưa có updatedAt
+          statusHistory: [
+            {
+              status: 'Pending',
+              timestamp: new Date().toLocaleString('vi-VN'),
+              note: 'Đơn hàng đã được tạo'
+            },
+            {
+              status: result.status,
+              timestamp: new Date().toLocaleString('vi-VN'),
+              note: getStatusNote(result.status)
+            }
+          ].filter((item, index, arr) => 
+            index === 0 || item.status !== arr[0].status
+          )
+        };
+
+        setBookingData(mappedData);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBookingData();
+  }, [bookingId]);
+  useEffect(() => {
+  if (!bookingId || !bookingData) return;
+
+  // Chỉ poll khi booking chưa completed/cancelled
+  if (bookingData.status === 'Completed' || bookingData.status === 'Cancelled') {
+    return;
+  }
+
+  const pollInterval = setInterval(async () => {
+    try {
+      const response = await fetch(
+        `https://homeheroapi-c6hngtg0ezcyeggg.southeastasia-01.azurewebsites.net/api/Booking/${bookingId}`
+      );
+      
+      if (response.ok) {
+        const result = await response.json();
+        
+        // Chỉ update nếu status thay đổi
+        if (result.status !== bookingData.status) {
+          console.log(`Status updated from ${bookingData.status} to ${result.status}`);
+          
+          // Re-map data với status mới
+          const updatedData = {
+            ...bookingData,
+            status: result.status,
+            updatedAt: new Date().toLocaleString('vi-VN'),
+            statusHistory: [
+              ...bookingData.statusHistory,
+              {
+                status: result.status,
+                timestamp: new Date().toLocaleString('vi-VN'),
+                note: getStatusNote(result.status)
+              }
+            ]
+          };
+          
+          setBookingData(updatedData);
+        }
+      }
+    } catch (error) {
+      console.error('Error polling booking status:', error);
+    }
+  }, 5000); // Poll mỗi 5 giây
+
+  return () => clearInterval(pollInterval);
+}, [bookingId, bookingData?.status]);
+
+// ✅ THÊM: Status change notification
+useEffect(() => {
+  if (bookingData?.status === 'Completed') {
+    // Show notification
+    const notification = document.createElement('div');
+    notification.innerHTML = `
+      <div style="
+        position: fixed; 
+        top: 20px; 
+        right: 20px; 
+        background: #10b981; 
+        color: white; 
+        padding: 15px 20px; 
+        border-radius: 8px; 
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 1000;
+        font-weight: bold;
+      ">
+        🎉 Dịch vụ đã hoàn thành! Đang chuyển đến thanh toán...
+      </div>
+    `;
+    document.body.appendChild(notification);
+    
+    // Remove notification after 3 seconds
+    setTimeout(() => {
+      document.body.removeChild(notification);
+    }, 3000);
+  }
+}, [bookingData?.status]);
+
+  useEffect(() => {
+    if (bookingData?.status === 'Completed' && onNavigateToPayment) {
+      const completedData = {
+        ...bookingData,
+        actualPrice: bookingData.estimatedPrice
+      };
+      
+      const timer = setTimeout(() => {
+        onNavigateToPayment(completedData);
+      }, 3000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [bookingData?.status, onNavigateToPayment, bookingData]);
+
+  const getStatusNote = (status) => {
+    const statusNotes = {
+      'Pending': 'Đơn hàng đang chờ được xử lý',
+      'Confirmed': 'Đã phân công thợ và xác nhận lịch hẹn',
+      'InProgress': 'Thợ đang tiến hành sửa chữa',
+      'Completed': 'Dịch vụ đã hoàn thành',
+      'Cancelled': 'Đơn hàng đã bị hủy'
+    };
+    return statusNotes[status] || `Trạng thái được cập nhật thành ${status}`;
+  };
+
+  if (loading) {
+    return (
+      <div className="page-content">
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Đang tải thông tin đơn hàng...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !bookingData) {
+    return (
+      <div className="page-content">
+        <div className="error-container">
+          <h3>❌ Không thể tải thông tin đơn hàng</h3>
+          <p>{error || 'Đã có lỗi xảy ra'}</p>
+          {onBackToForm && (
+            <button onClick={onBackToForm} className="action-btn primary">
+              🏠 Về trang đặt lịch
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   // Status configuration
   const statusConfig = {
@@ -69,80 +243,11 @@ const BookingTracking = ({ initialBookingData, onNavigateToPayment, onBackToForm
   const statusOrder = ['Pending', 'Confirmed', 'InProgress', 'Completed'];
   const currentStatusIndex = statusOrder.indexOf(bookingData.status);
 
-  // 🎯 FIX: Handle auto navigation to payment when completed
-  useEffect(() => {
-    if (bookingData.status === 'Completed' && onNavigateToPayment) {
-      // Add actual price when completed
-      const completedData = {
-        ...bookingData,
-        actualPrice: '450,000'
-      };
-      
-      // Auto navigate to payment after 3 seconds
-      const timer = setTimeout(() => {
-        onNavigateToPayment(completedData);
-      }, 3000);
-      
-      return () => clearTimeout(timer);
-    }
-  }, [bookingData.status, onNavigateToPayment]);
-
-  // Simulate real-time updates
-  useEffect(() => {
-    const interval = setInterval(() => {
-      // In real app, this would be WebSocket or polling API
-      // For demo, we'll simulate status changes
-      if (Math.random() > 0.97) { // 3% chance every second
-        const nextStatusIndex = Math.min(currentStatusIndex + 1, statusOrder.length - 1);
-        if (nextStatusIndex > currentStatusIndex) {
-          const newStatus = statusOrder[nextStatusIndex];
-          setBookingData(prev => ({
-            ...prev,
-            status: newStatus,
-            updatedAt: new Date().toLocaleString('vi-VN'),
-            statusHistory: [
-              ...prev.statusHistory,
-              {
-                status: newStatus,
-                timestamp: new Date().toLocaleString('vi-VN'),
-                note: statusConfig[newStatus].description
-              }
-            ]
-          }));
-        }
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [currentStatusIndex]);
-
-  // 🎯 ADD: Manual function to simulate progress (for testing)
-  const handleSimulateProgress = () => {
-    const nextStatusIndex = Math.min(currentStatusIndex + 1, statusOrder.length - 1);
-    if (nextStatusIndex > currentStatusIndex) {
-      const newStatus = statusOrder[nextStatusIndex];
-      setBookingData(prev => ({
-        ...prev,
-        status: newStatus,
-        updatedAt: new Date().toLocaleString('vi-VN'),
-        statusHistory: [
-          ...prev.statusHistory,
-          {
-            status: newStatus,
-            timestamp: new Date().toLocaleString('vi-VN'),
-            note: statusConfig[newStatus].description
-          }
-        ]
-      }));
-    }
-  };
-
-  // 🎯 ADD: Manual navigate to payment (for testing)
   const handleManualPayment = () => {
     if (onNavigateToPayment) {
       onNavigateToPayment({
         ...bookingData,
-        actualPrice: '450,000'
+        actualPrice: bookingData.estimatedPrice
       });
     }
   };
@@ -167,7 +272,7 @@ const BookingTracking = ({ initialBookingData, onNavigateToPayment, onBackToForm
 
   const handleContactTechnician = () => {
     if (bookingData.technicianInfo) {
-      window.open(`tel:${bookingData.technicianInfo.phone}`);
+      alert('Vui lòng liên hệ admin để được kết nối với thợ sửa chữa');
     }
   };
 
@@ -186,7 +291,7 @@ const BookingTracking = ({ initialBookingData, onNavigateToPayment, onBackToForm
         </div>
         <h1 className="page-title">📱 Theo dõi đơn hàng</h1>
         <p className="page-subtitle">
-          Mã đơn hàng: <strong>{bookingData.bookingId}</strong>
+          Mã đơn hàng: <strong>BK{String(bookingData.bookingId).padStart(8, '0')}</strong>
         </p>
       </div>
 
@@ -204,7 +309,6 @@ const BookingTracking = ({ initialBookingData, onNavigateToPayment, onBackToForm
                 <p>{statusConfig[bookingData.status].description}</p>
                 <small>Cập nhật lần cuối: {bookingData.updatedAt}</small>
                 
-                {/* 🎯 ADD: Show countdown when completed */}
                 {bookingData.status === 'Completed' && (
                   <div className="completion-notice">
                     <p style={{ color: '#059669', fontWeight: 'bold', marginTop: '10px' }}>
@@ -258,11 +362,15 @@ const BookingTracking = ({ initialBookingData, onNavigateToPayment, onBackToForm
           <div className="details-grid">
             <div className="detail-item">
               <span className="label">Dịch vụ:</span>
-              <span className="value">{bookingData.serviceType}</span>
+              <span className="value">{bookingData.serviceName}</span>
             </div>
             <div className="detail-item">
-              <span className="label">Thiết bị:</span>
-              <span className="value">{bookingData.applianceType}</span>
+              <span className="label">Khách hàng:</span>
+              <span className="value">{bookingData.customerName}</span>
+            </div>
+            <div className="detail-item">
+              <span className="label">Số điện thoại:</span>
+              <span className="value">{bookingData.customerPhone}</span>
             </div>
             <div className="detail-item">
               <span className="label">Thời gian:</span>
@@ -277,7 +385,11 @@ const BookingTracking = ({ initialBookingData, onNavigateToPayment, onBackToForm
               <span className="value">{bookingData.description}</span>
             </div>
             <div className="detail-item">
-              <span className="label">Giá ước tính:</span>
+              <span className="label">Mức độ khẩn cấp:</span>
+              <span className="value">{bookingData.urgencyLevel === 'urgent' ? 'Khẩn cấp' : 'Bình thường'}</span>
+            </div>
+            <div className="detail-item">
+              <span className="label">Tổng chi phí:</span>
               <span className="value price">{bookingData.estimatedPrice} ₫</span>
             </div>
             {bookingData.actualPrice && (
@@ -333,13 +445,6 @@ const BookingTracking = ({ initialBookingData, onNavigateToPayment, onBackToForm
 
         {/* Actions */}
         <div className="actions-section">
-          {/* 🎯 ADD: Test buttons for development */}
-          {bookingData.status !== 'Completed' && bookingData.status !== 'Cancelled' && (
-            <button onClick={handleSimulateProgress} className="action-btn primary">
-              🚀 Mô phỏng tiến trình tiếp theo
-            </button>
-          )}
-          
           {bookingData.status === 'Completed' && (
             <>
               <button onClick={handleManualPayment} className="action-btn primary">

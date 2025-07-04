@@ -1,25 +1,24 @@
-/* Register container */
-.register-container {
+/* Technician Register Styles */
+.technician-register-container {
   min-height: 100vh;
   background: linear-gradient(135deg, #f0f9ff 0%, #e0e7ff 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: 2rem 1rem;
 }
 
-/* Register card */
-.register-card {
+.technician-register-card {
   background: white;
   border-radius: 1rem;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   padding: 2rem;
   width: 100%;
-  max-width: 32rem;
+  max-width: 50rem;
   position: relative;
 }
 
-/* Header section */
+/* Header styles - reuse from Register.css */
 .register-header {
   text-align: center;
   margin-bottom: 2rem;
@@ -61,7 +60,7 @@
 }
 
 .logo-icon {
-  background-color: #2563eb;
+  background-color: #059669;
   color: white;
   padding: 0.75rem;
   border-radius: 0.75rem;
@@ -71,7 +70,7 @@
 }
 
 .register-title {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 700;
   color: #111827;
   margin: 0 0 0.5rem 0;
@@ -84,10 +83,35 @@
 }
 
 /* Form styles */
-.register-form {
+.technician-register-form {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 2rem;
+}
+
+.form-section {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  background: #f9fafb;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 1.5rem 0;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
 }
 
 .form-group {
@@ -115,8 +139,8 @@
 
 .form-input:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+  border-color: #059669;
+  box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.3);
 }
 
 .form-input:disabled {
@@ -124,7 +148,31 @@
   cursor: not-allowed;
 }
 
-/* Password input container */
+.form-textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: all 0.2s ease-in-out;
+  box-sizing: border-box;
+  resize: vertical;
+  min-height: 80px;
+  font-family: inherit;
+}
+
+.form-textarea:focus {
+  outline: none;
+  border-color: #059669;
+  box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.3);
+}
+
+.form-textarea:disabled {
+  background-color: #f3f4f6;
+  cursor: not-allowed;
+}
+
+/* Password container - reuse from Register.css */
 .password-container {
   position: relative;
 }
@@ -174,17 +222,18 @@
   padding: 0.75rem 1rem;
   border-radius: 0.5rem;
   font-size: 0.875rem;
+  line-height: 1.5;
 }
 
 /* Form actions */
 .form-actions {
-  margin-top: 0.5rem;
+  margin-top: 1rem;
 }
 
 .register-button {
   width: 100%;
-  padding: 0.75rem 1rem;
-  background-color: #2563eb;
+  padding: 0.875rem 1rem;
+  background-color: #059669;
   color: white;
   border: none;
   border-radius: 0.5rem;
@@ -199,7 +248,7 @@
 }
 
 .register-button:hover:not(:disabled) {
-  background-color: #1d4ed8;
+  background-color: #047857;
 }
 
 .register-button:disabled {
@@ -218,14 +267,14 @@
 .login-link-button {
   background: none;
   border: none;
-  color: #2563eb;
+  color: #059669;
   font-weight: 500;
   cursor: pointer;
   padding: 0;
 }
 
 .login-link-button:hover:not(:disabled) {
-  color: #1d4ed8;
+  color: #047857;
   text-decoration: underline;
 }
 
@@ -240,23 +289,32 @@
   padding-top: 1.5rem;
   border-top: 1px solid #e5e7eb;
   text-align: center;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   color: #6b7280;
-  line-height: 1.4;
+  line-height: 1.5;
+}
+
+.register-info strong {
+  color: #374151;
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
-  .register-container {
-    padding: 0.5rem;
+  .technician-register-container {
+    padding: 1rem 0.5rem;
   }
   
-  .register-card {
+  .technician-register-card {
     padding: 1.5rem;
+    margin: 0;
   }
   
   .register-title {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
   }
   
   .back-button {
@@ -268,14 +326,22 @@
   .register-logo {
     margin-top: 0;
   }
+  
+  .form-section {
+    padding: 1rem;
+  }
 }
 
 @media (max-width: 480px) {
-  .register-card {
+  .technician-register-card {
     padding: 1rem;
   }
   
-  .register-form {
-    gap: 1rem;
+  .technician-register-form {
+    gap: 1.5rem;
+  }
+  
+  .section-title {
+    font-size: 1rem;
   }
 }

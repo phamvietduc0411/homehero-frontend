@@ -1,6 +1,7 @@
 import Login from "./pages/Login_ver2.jsx";
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Register from "./pages/Register.jsx";
+import TechnicianRegister from "./pages/Technician/TechnicianRegister.jsx";
 import AdminDashboard from "./pages/Admin/AdminDashboard.jsx";
 import './App.css';
 import MainPage from "./pages/User/MainPage.jsx";
@@ -44,6 +45,8 @@ function App() {
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/admin" element={<AdminDashboard />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/register-technician" element={<TechnicianRegister />} />
      <Route path="/user/payment" element={<Payment/>} /> 
       <Route path="/user" element={
         <ProtectedRoute requiredUserType="User">

@@ -1,7 +1,7 @@
 // src/pages/Login.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, User, Wrench } from 'lucide-react';
+import { Eye, EyeOff, User, Wrench, ChevronDown } from 'lucide-react';
 import '../styles/Login_ver2.css';
 
 
@@ -100,6 +100,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showRegisterDropdown, setShowRegisterDropdown] = useState(false);
 
   useEffect(() => {
     if (tokenManager.isAuthenticated()) {
@@ -153,6 +154,23 @@ const Login = () => {
     }
   };
 
+  const handleRegisterNavigation = (userType) => {
+  setShowRegisterDropdown(false);
+  if (userType === 'User') {
+    navigate('/register');
+  } else if (userType === 'Technician') {
+    navigate('/register-technician');
+  }
+};
+useEffect(() => {
+  const handleClickOutside = (event) => {
+    if (!event.target.closest('.register-dropdown-container')) {
+      setShowRegisterDropdown(false);
+    }
+  };
+  document.addEventListener('mousedown', handleClickOutside);
+  return () => document.removeEventListener('mousedown', handleClickOutside);
+}, []);
   return (
     <div className="login-container">
       <div className="login-card">
@@ -232,14 +250,39 @@ const Login = () => {
           </div>
 
           <div className="register-link">
-            <button
-              type="button"
-              className="register-button"
-              onClick={() => navigate('/register')}
-            >
-              Đăng ký tài khoản mới
-            </button>
-          </div>
+  <div className="register-dropdown-container">
+    <button
+      type="button"
+      className="register-dropdown-button"
+      onClick={() => setShowRegisterDropdown(!showRegisterDropdown)}
+      disabled={loading}
+    >
+      Đăng ký tài khoản mới
+      <ChevronDown className={`w-4 h-4 transition-transform ${showRegisterDropdown ? 'rotate-180' : ''}`} />
+    </button>
+    
+    {showRegisterDropdown && (
+      <div className="register-dropdown-menu">
+        <button
+          type="button"
+          className="register-dropdown-item"
+          onClick={() => handleRegisterNavigation('User')}
+        >
+          <User className="w-4 h-4" />
+          Đăng ký làm khách hàng
+        </button>
+        <button
+          type="button"
+          className="register-dropdown-item"
+          onClick={() => handleRegisterNavigation('Technician')}
+        >
+          <Wrench className="w-4 h-4" />
+          Đăng ký làm thợ sửa chữa
+        </button>
+      </div>
+    )}
+  </div>
+</div>
         </div>
 
         <div className="test-info">

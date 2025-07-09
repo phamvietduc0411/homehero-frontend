@@ -421,7 +421,11 @@ const RepairSchedule = ({ onNavigateToTracking, userData}) => {
                     applianceType: '' // Reset service selection when category changes
                   }))}
                 >
-                  <div className="service-icon">{category.iconUrl || '🔧'}</div>
+                  {category.iconUrl ? (
+        <img src={category.iconUrl} alt={category.categoryName} className="service-icon" />
+      ) : (
+        <div className="service-icon">🔧</div>
+      )}
                   <h4>{category.categoryName}</h4>
                   <div className="service-price">{category.basePrice || 'Liên hệ'}</div>
                 </div>

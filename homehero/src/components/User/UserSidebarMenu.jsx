@@ -3,9 +3,13 @@ import '../../styles/User/UserSidebarMenu.css';
 
 const UserSidebarMenu = ({ activeMenu, setActiveMenu }) => {
   const menuItems = [
+    // {
+    //   icon: 'fas fa-tv',
+    //   text: 'Trang chủ'
+    // },
     {
-      icon: 'fas fa-tv',
-      text: 'Trang chủ'
+      icon: 'fas fa-map-marker-alt',
+      text: 'Hồ sơ cá nhân'
     },
     {
       icon: 'fas fa-chart-pie',
@@ -24,10 +28,7 @@ const UserSidebarMenu = ({ activeMenu, setActiveMenu }) => {
       icon: 'fas fa-table',
       text: 'Thông báo'
     },
-    {
-      icon: 'fas fa-map-marker-alt',
-      text: 'Hồ sơ cá nhân'
-    },
+    
     {
       icon: 'fas fa-puzzle-piece',
       text: 'Thanh toán/Hóa đơn'
@@ -36,26 +37,26 @@ const UserSidebarMenu = ({ activeMenu, setActiveMenu }) => {
       icon: 'fas fa-chart-bar',
       text: 'Hỗ trợ / Liên hệ'
     },
-    {
-      icon: 'fas fa-calendar-alt',
-      text: 'Calendar'
-    }
+    // {
+    //   icon: 'fas fa-calendar-alt',
+    //   text: 'Calendar'
+    // }
   ];
 
-  const documentationItems = [
-    {
-      icon: 'fas fa-rocket',
-      text: 'Getting started'
-    },
-    {
-      icon: 'fas fa-atom',
-      text: 'Foundation'
-    },
-    {
-      icon: 'fas fa-puzzle-piece',
-      text: 'Components'
-    }
-  ];
+  // const documentationItems = [
+  //   {
+  //     icon: 'fas fa-rocket',
+  //     text: 'Getting started'
+  //   },
+  //   {
+  //     icon: 'fas fa-atom',
+  //     text: 'Foundation'
+  //   },
+  //   {
+  //     icon: 'fas fa-puzzle-piece',
+  //     text: 'Components'
+  //   }
+  // ];
 
   const handleMenuClick = (menuText) => {
     setActiveMenu(menuText);
@@ -88,7 +89,7 @@ const UserSidebarMenu = ({ activeMenu, setActiveMenu }) => {
       </ul>
       
       <div className="sidebar-documentation">
-        {/* Documentation section */}
+        {/* Documentation section
         <h6>DOCUMENTATION</h6>
         <ul>
           {documentationItems.map((item, index) => (
@@ -106,7 +107,7 @@ const UserSidebarMenu = ({ activeMenu, setActiveMenu }) => {
               </a>
             </li>
           ))}
-        </ul>
+        </ul> */}
       </div>
     </div>
   );

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import UserSidebarMenu from '../../components/User/UserSidebarMenu';
 import ProductStore from '../User/ProductStore';
+import OrderHistory from '../User/OrderHistory';
+import PersonalInformation from '../User/PersonalInformation';
 
 import '../../styles/User/UserDashboard.css';
 import Payment from './Payment';
@@ -182,91 +184,91 @@ const DashboardHome = () => (
 //   </div>
 // );
 
-const OrderHistory = () => (
-  <div className="page-content">
-    <div className="page-header">
-      <div className="breadcrumb">
-        <span>Pages</span>
-        <span className="breadcrumb-separator">/</span>
-        <span className="breadcrumb-current">Lịch sử đơn hàng</span>
-      </div>
-      <h1 className="page-title">📰 Lịch sử đơn hàng</h1>
-      <p className="page-subtitle">
-        Xem lại các đơn hàng và dịch vụ đã sử dụng
-      </p>
-    </div>
+// const OrderHistory = () => (
+//   <div className="page-content">
+//     <div className="page-header">
+//       <div className="breadcrumb">
+//         <span>Pages</span>
+//         <span className="breadcrumb-separator">/</span>
+//         <span className="breadcrumb-current">Lịch sử đơn hàng</span>
+//       </div>
+//       <h1 className="page-title">📰 Lịch sử đơn hàng</h1>
+//       <p className="page-subtitle">
+//         Xem lại các đơn hàng và dịch vụ đã sử dụng
+//       </p>
+//     </div>
     
-    <div className="orders-table">
-      <div className="table-header">
-        <h3>Đơn hàng gần đây</h3>
-        <div className="table-actions">
-          <select className="filter-select">
-            <option>Tất cả trạng thái</option>
-            <option>Hoàn thành</option>
-            <option>Đang xử lý</option>
-            <option>Đã hủy</option>
-          </select>
-        </div>
-      </div>
+//     <div className="orders-table">
+//       <div className="table-header">
+//         <h3>Đơn hàng gần đây</h3>
+//         <div className="table-actions">
+//           <select className="filter-select">
+//             <option>Tất cả trạng thái</option>
+//             <option>Hoàn thành</option>
+//             <option>Đang xử lý</option>
+//             <option>Đã hủy</option>
+//           </select>
+//         </div>
+//       </div>
       
-      <div className="orders-list">
-        <div className="order-item">
-          <div className="order-info">
-            <div className="order-id">#DH001</div>
-            <div className="order-service">Sửa máy giặt Samsung</div>
-            <div className="order-date">15/12/2024</div>
-          </div>
-          <div className="order-technician">
-            <div className="tech-name">Nguyễn Văn An</div>
-            <div className="tech-rating">⭐ 4.9</div>
-          </div>
-          <div className="order-price">350,000 ₫</div>
-          <div className="order-status completed">Hoàn thành</div>
-          <div className="order-actions">
-            <button className="action-btn">Chi tiết</button>
-            <button className="action-btn">Đánh giá</button>
-          </div>
-        </div>
+//       <div className="orders-list">
+//         <div className="order-item">
+//           <div className="order-info">
+//             <div className="order-id">#DH001</div>
+//             <div className="order-service">Sửa máy giặt Samsung</div>
+//             <div className="order-date">15/12/2024</div>
+//           </div>
+//           <div className="order-technician">
+//             <div className="tech-name">Nguyễn Văn An</div>
+//             <div className="tech-rating">⭐ 4.9</div>
+//           </div>
+//           <div className="order-price">350,000 ₫</div>
+//           <div className="order-status completed">Hoàn thành</div>
+//           <div className="order-actions">
+//             <button className="action-btn">Chi tiết</button>
+//             <button className="action-btn">Đánh giá</button>
+//           </div>
+//         </div>
         
-        <div className="order-item">
-          <div className="order-info">
-            <div className="order-id">#DH002</div>
-            <div className="order-service">Bảo trì điều hòa Daikin</div>
-            <div className="order-date">25/12/2024</div>
-          </div>
-          <div className="order-technician">
-            <div className="tech-name">Trần Văn Bình</div>
-            <div className="tech-rating">⭐ 4.8</div>
-          </div>
-          <div className="order-price">280,000 ₫</div>
-          <div className="order-status pending">Đã đặt lịch</div>
-          <div className="order-actions">
-            <button className="action-btn">Chi tiết</button>
-            <button className="action-btn">Hủy lịch</button>
-          </div>
-        </div>
+//         <div className="order-item">
+//           <div className="order-info">
+//             <div className="order-id">#DH002</div>
+//             <div className="order-service">Bảo trì điều hòa Daikin</div>
+//             <div className="order-date">25/12/2024</div>
+//           </div>
+//           <div className="order-technician">
+//             <div className="tech-name">Trần Văn Bình</div>
+//             <div className="tech-rating">⭐ 4.8</div>
+//           </div>
+//           <div className="order-price">280,000 ₫</div>
+//           <div className="order-status pending">Đã đặt lịch</div>
+//           <div className="order-actions">
+//             <button className="action-btn">Chi tiết</button>
+//             <button className="action-btn">Hủy lịch</button>
+//           </div>
+//         </div>
         
-        <div className="order-item">
-          <div className="order-info">
-            <div className="order-id">#DH003</div>
-            <div className="order-service">Sửa tủ lạnh LG</div>
-            <div className="order-date">08/12/2024</div>
-          </div>
-          <div className="order-technician">
-            <div className="tech-name">Lê Văn Cường</div>
-            <div className="tech-rating">⭐ 5.0</div>
-          </div>
-          <div className="order-price">420,000 ₫</div>
-          <div className="order-status completed">Hoàn thành</div>
-          <div className="order-actions">
-            <button className="action-btn">Chi tiết</button>
-            <button className="action-btn">Đặt lại</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-);
+//         <div className="order-item">
+//           <div className="order-info">
+//             <div className="order-id">#DH003</div>
+//             <div className="order-service">Sửa tủ lạnh LG</div>
+//             <div className="order-date">08/12/2024</div>
+//           </div>
+//           <div className="order-technician">
+//             <div className="tech-name">Lê Văn Cường</div>
+//             <div className="tech-rating">⭐ 5.0</div>
+//           </div>
+//           <div className="order-price">420,000 ₫</div>
+//           <div className="order-status completed">Hoàn thành</div>
+//           <div className="order-actions">
+//             <button className="action-btn">Chi tiết</button>
+//             <button className="action-btn">Đặt lại</button>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   </div>
+// );
 
 const PlaceholderPage = ({ title, description, icon }) => (
   <div className="page-content">
@@ -336,14 +338,14 @@ const handleNavigateToTracking = (bookingData) => {
   // ✅ Function render content dựa trên menu được chọn
   const renderContent = () => {
     switch (activeMenu) {
-      case 'Trang chủ':
-        return <DashboardHome />;
+      // case 'Trang chủ':
+      //   return <DashboardHome />;
       case 'Đặt lịch sửa chữa':
         return <BookingFlowManager userData={userData}/>;
       case 'Đặt mua sản phẩm':
         return <ProductStore />;
       case 'Lịch sử đơn hàng':
-        return <OrderHistory />;
+        return <OrderHistory userData={userData} />;
       case 'Đặt lịch sửa chữa':
       // return <RepairSchedule onNavigateToTracking={handleNavigateToTracking} />;
       // case 'Theo dõi đơn hàng':
@@ -355,11 +357,7 @@ const handleNavigateToTracking = (bookingData) => {
           icon="🔔"
         />;
       case 'Hồ sơ cá nhân':
-        return <PlaceholderPage 
-          title="Hồ sơ cá nhân" 
-          description="Quản lý thông tin tài khoản của bạn"
-          icon="👤"
-        />;
+        return <PersonalInformation userData={userData} />;
       case 'Thanh toán/Hóa đơn':
         return <Payment 
           title="Thanh toán/Hóa đơn" 
@@ -374,12 +372,12 @@ const handleNavigateToTracking = (bookingData) => {
           description="Liên hệ với đội ngũ hỗ trợ khách hàng"
           icon="🆘"
         />;
-      case 'Calendar':
-        return <PlaceholderPage 
-          title="Calendar" 
-          description="Xem lịch hẹn và các dịch vụ đã đặt"
-          icon="📅"
-        />;
+      // case 'Calendar':
+      //   return <PlaceholderPage 
+      //     title="Calendar" 
+      //     description="Xem lịch hẹn và các dịch vụ đã đặt"
+      //     icon="📅"
+      //   />;
       default:
         return <DashboardHome />;
     }

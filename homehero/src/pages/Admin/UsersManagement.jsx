@@ -1,267 +1,145 @@
 import React, { useState, useEffect } from 'react';
 import '../../styles/Admin/UsersManagement.css';
 
-const UsersManagement = () => {
-  // Sample users data
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      name: 'Minh Tran',
-      email: 'minh.tran@email.com',
-      phone: '0901234567',
-      address: '123 Nguyen Hue Street, District 1, HCMC',
-      status: 'Active',
-      joinDate: '2023-05-15',
-      avatar: '👤',
-      totalBookings: 8,
-      completedBookings: 6,
-      cancelledBookings: 1,
-      pendingBookings: 1,
-      totalSpent: '2,150,000 VND',
-      averageRating: 4.5,
-      lastBooking: '2024-12-20',
-      preferredServices: ['Plumbing', 'Electrical'],
-      loyaltyLevel: 'Gold',
-      bookingHistory: [
-        {
-          id: 1,
-          serviceId: 1,
-          serviceName: 'Leaky Faucet Repair',
-          technicianName: 'Thanh Nguyen',
-          date: '2024-12-20T09:00:00',
-          status: 'Completed',
-          price: '200,000 VND',
-          rating: 5,
-          feedback: 'Excellent service! Very professional and quick.'
-        },
-        {
-          id: 6,
-          serviceId: 5,
-          serviceName: 'Outlet Repair',
-          technicianName: 'Hung Tran',
-          date: '2025-01-07T13:00:00',
-          status: 'Pending',
-          price: '180,000 VND',
-          rating: null,
-          feedback: null
-        },
-        {
-          id: 12,
-          serviceId: 3,
-          serviceName: 'Ceiling Fan Installation',
-          technicianName: 'Thanh Nguyen',
-          date: '2024-11-15T14:30:00',
-          status: 'Completed',
-          price: '350,000 VND',
-          rating: 4,
-          feedback: 'Good work, but took longer than expected.'
-        }
-      ],
-      feedbackHistory: [
-        {
-          bookingId: 1,
-          serviceName: 'Leaky Faucet Repair',
-          rating: 5,
-          feedback: 'Excellent service! Very professional and quick.',
-          date: '2024-12-20',
-          technicianName: 'Thanh Nguyen'
-        },
-        {
-          bookingId: 12,
-          serviceName: 'Ceiling Fan Installation',
-          rating: 4,
-          feedback: 'Good work, but took longer than expected.',
-          date: '2024-11-15',
-          technicianName: 'Thanh Nguyen'
-        }
-      ]
-    },
-    {
-      id: 2,
-      name: 'Linh Nguyen',
-      email: 'linh.nguyen@email.com',
-      phone: '0912345678',
-      address: '456 Le Loi Avenue, District 1, HCMC',
-      status: 'Active',
-      joinDate: '2023-08-22',
-      avatar: '👩',
-      totalBookings: 12,
-      completedBookings: 10,
-      cancelledBookings: 0,
-      pendingBookings: 2,
-      totalSpent: '3,800,000 VND',
-      averageRating: 4.8,
-      lastBooking: '2024-12-23',
-      preferredServices: ['Electrical', 'Air Conditioning'],
-      loyaltyLevel: 'Platinum',
-      bookingHistory: [
-        {
-          id: 2,
-          serviceId: 4,
-          serviceName: 'Light Fixture Installation',
-          technicianName: 'Hung Tran',
-          date: '2024-12-23T14:00:00',
-          status: 'Confirmed',
-          price: '250,000 VND',
-          rating: null,
-          feedback: null
-        },
-        {
-          id: 15,
-          serviceId: 10,
-          serviceName: 'AC Repair',
-          technicianName: 'Cuong Do',
-          date: '2024-12-01T10:00:00',
-          status: 'Completed',
-          price: '500,000 VND',
-          rating: 5,
-          feedback: 'Perfect service! AC working like new.'
-        }
-      ],
-      feedbackHistory: [
-        {
-          bookingId: 15,
-          serviceName: 'AC Repair',
-          rating: 5,
-          feedback: 'Perfect service! AC working like new.',
-          date: '2024-12-01',
-          technicianName: 'Cuong Do'
-        }
-      ]
-    },
-    {
-      id: 3,
-      name: 'Khanh Le',
-      email: 'khanh.le@email.com',
-      phone: '0923456789',
-      address: '789 Vo Van Tan Street, District 3, HCMC',
-      status: 'Active',
-      joinDate: '2023-12-10',
-      avatar: '👨',
-      totalBookings: 3,
-      completedBookings: 2,
-      cancelledBookings: 0,
-      pendingBookings: 1,
-      totalSpent: '850,000 VND',
-      averageRating: 4.0,
-      lastBooking: '2025-01-05',
-      preferredServices: ['Furniture Assembly'],
-      loyaltyLevel: 'Silver',
-      bookingHistory: [
-        {
-          id: 3,
-          serviceId: 7,
-          serviceName: 'Furniture Assembly',
-          technicianName: 'Lan Vu',
-          date: '2025-01-05T10:30:00',
-          status: 'Pending',
-          price: '350,000 VND',
-          rating: null,
-          feedback: null
-        }
-      ],
-      feedbackHistory: []
-    },
-    {
-      id: 4,
-      name: 'Hoa Pham',
-      email: 'hoa.pham@email.com',
-      phone: '0934567890',
-      address: '101 Bach Dang Street, Da Nang',
-      status: 'Active',
-      joinDate: '2022-03-08',
-      avatar: '👩',
-      totalBookings: 25,
-      completedBookings: 22,
-      cancelledBookings: 2,
-      pendingBookings: 1,
-      totalSpent: '8,750,000 VND',
-      averageRating: 4.7,
-      lastBooking: '2025-01-06',
-      preferredServices: ['AC Maintenance', 'Appliance Repair'],
-      loyaltyLevel: 'Diamond',
-      bookingHistory: [
-        {
-          id: 4,
-          serviceId: 10,
-          serviceName: 'AC Maintenance',
-          technicianName: 'Cuong Do',
-          date: '2025-01-06T08:00:00',
-          status: 'InProgress',
-          price: '450,000 VND',
-          rating: null,
-          feedback: null
-        }
-      ],
-      feedbackHistory: [
-        {
-          bookingId: 20,
-          serviceName: 'Refrigerator Repair',
-          rating: 5,
-          feedback: 'Outstanding work! Fridge works perfectly now.',
-          date: '2024-11-20',
-          technicianName: 'Mai Hoang'
-        }
-      ]
-    },
-    {
-      id: 5,
-      name: 'Tuan Vo',
-      email: 'tuan.vo@email.com',
-      phone: '0945678901',
-      address: '202 Tran Phu Street, Hanoi',
-      status: 'Inactive',
-      joinDate: '2023-02-14',
-      avatar: '👨',
-      totalBookings: 5,
-      completedBookings: 3,
-      cancelledBookings: 2,
-      pendingBookings: 0,
-      totalSpent: '1,200,000 VND',
-      averageRating: 3.5,
-      lastBooking: '2024-12-15',
-      preferredServices: ['Appliance Repair'],
-      loyaltyLevel: 'Bronze',
-      bookingHistory: [
-        {
-          id: 5,
-          serviceId: 13,
-          serviceName: 'Refrigerator Repair',
-          technicianName: 'Mai Hoang',
-          date: '2024-12-15T16:00:00',
-          status: 'Cancelled',
-          price: '400,000 VND',
-          rating: null,
-          feedback: 'Had to cancel due to emergency.'
-        }
-      ],
-      feedbackHistory: [
-        {
-          bookingId: 18,
-          serviceName: 'Washing Machine Repair',
-          rating: 3,
-          feedback: 'Service was okay, but technician was late.',
-          date: '2024-10-05',
-          technicianName: 'Mai Hoang'
-        }
-      ]
-    }
-  ]);
 
-  const [filteredUsers, setFilteredUsers] = useState(users);
+const UsersManagement = () => {
+  // State management
+  const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
   const [statusFilter, setStatusFilter] = useState('All');
-  const [loyaltyFilter, setLoyaltyFilter] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState(''); // 'view', 'history', 'feedback'
   const [selectedUser, setSelectedUser] = useState(null);
 
-  const statusOptions = ['All', 'Active', 'Inactive'];
-  const loyaltyLevels = ['All', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond'];
+  // API Base URL
+  const API_BASE_URL = 'https://homeheroapi-c6hngtg0ezcyeggg.southeastasia-01.azurewebsites.net/api/AppUser';
 
-  // Filter and search logic
+  const statusOptions = ['All', 'Active', 'Inactive'];
+
+  // API Functions
+  const fetchAllUsers = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(`${API_BASE_URL}`);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const result = await response.json();
+      
+      // Transform API data to match component structure
+      const transformedUsers = result.data.map(user => ({
+        id: user.userId,
+        name: user.fullName,
+        email: user.email,
+        phone: user.phone,
+        address: user.address || 'No address provided',
+        status: user.status,
+        joinDate: user.joinDate,
+        avatar: user.avatar,
+        emailConfirmed: user.emailConfirmed,
+        lastLoginDate: user.lastLoginDate,
+        // Default values for missing fields (these would come from other API calls)
+        totalBookings: 0,
+        completedBookings: 0,
+        cancelledBookings: 0,
+        pendingBookings: 0,
+        totalSpent: '0 VND',
+        averageRating: 0,
+        lastBooking: user.lastLoginDate,
+        preferredServices: [],
+        loyaltyLevel: 'Bronze',
+        bookingHistory: [],
+        feedbackHistory: []
+      }));
+
+      setUsers(transformedUsers);
+      setError(null);
+    } catch (err) {
+      setError(`Failed to fetch users: ${err.message}`);
+      console.error('Error fetching users:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateUserStatus = async (userId, newStatus) => {
+    try {
+      const endpoint = newStatus === 'Active' 
+        ? `${API_BASE_URL}/${userId}/activate`
+        : `${API_BASE_URL}/${userId}/deactivate`;
+
+      const response = await fetch(endpoint, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to update status: ${response.status}`);
+      }
+
+      // Update local state
+      setUsers(prev => prev.map(user => 
+        user.id === userId ? { ...user, status: newStatus } : user
+      ));
+      
+    } catch (err) {
+      alert(`Failed to update status: ${err.message}`);
+      console.error('Error updating user status:', err);
+    }
+  };
+
+  // Search and filter functions
+  const handleSearch = (searchTerm) => {
+    if (!searchTerm.trim()) {
+      setFilteredUsers(users);
+      return;
+    }
+
+    const filtered = users.filter(user => 
+      user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.phone?.includes(searchTerm) ||
+      user.id?.toString().includes(searchTerm)
+    );
+    
+    setFilteredUsers(filtered);
+    setCurrentPage(1);
+  };
+
+  const handleStatusFilter = (status) => {
+    if (status === 'All') {
+      setFilteredUsers(users);
+    } else {
+      const filtered = users.filter(user => user.status === status);
+      setFilteredUsers(filtered);
+    }
+    setCurrentPage(1);
+  };
+
+  // Initial data loading
+  useEffect(() => {
+    fetchAllUsers();
+  }, []);
+
+  // Handle search with debounce
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      handleSearch(searchTerm);
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [searchTerm, users]);
+
+  // Handle filters
   useEffect(() => {
     let filtered = users;
     
@@ -269,23 +147,18 @@ const UsersManagement = () => {
       filtered = filtered.filter(user => user.status === statusFilter);
     }
     
-    if (loyaltyFilter !== 'All') {
-      filtered = filtered.filter(user => user.loyaltyLevel === loyaltyFilter);
-    }
-    
-    if (searchTerm) {
+    if (searchTerm.trim()) {
       filtered = filtered.filter(user => 
-        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.phone.includes(searchTerm) ||
-        user.id.toString().includes(searchTerm) ||
-        user.preferredServices.some(service => service.toLowerCase().includes(searchTerm.toLowerCase()))
+        user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.phone?.includes(searchTerm) ||
+        user.id?.toString().includes(searchTerm)
       );
     }
     
     setFilteredUsers(filtered);
     setCurrentPage(1);
-  }, [statusFilter, loyaltyFilter, searchTerm, users]);
+  }, [statusFilter, searchTerm, users]);
 
   // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -293,10 +166,9 @@ const UsersManagement = () => {
   const currentUsers = filteredUsers.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
 
-  const handleStatusChange = (userId, newStatus) => {
-    setUsers(prev => prev.map(user => 
-      user.id === userId ? { ...user, status: newStatus } : user
-    ));
+  // Event handlers
+  const handleStatusChange = async (userId, newStatus) => {
+    await updateUserStatus(userId, newStatus);
   };
 
   const handleView = (user) => {
@@ -317,11 +189,14 @@ const UsersManagement = () => {
     setShowModal(true);
   };
 
+  // Utility functions
   const formatDate = (dateString) => {
+    if (!dateString) return 'N/A';
     return new Date(dateString).toLocaleDateString('vi-VN');
   };
 
   const formatDateTime = (dateString) => {
+    if (!dateString) return 'N/A';
     return new Date(dateString).toLocaleString('vi-VN', {
       year: 'numeric',
       month: '2-digit',
@@ -346,20 +221,45 @@ const UsersManagement = () => {
     return stars.join('');
   };
 
-  const getLoyaltyBadgeClass = (level) => {
-    const classes = {
-      'Bronze': 'bronze',
-      'Silver': 'silver', 
-      'Gold': 'gold',
-      'Platinum': 'platinum',
-      'Diamond': 'diamond'
-    };
-    return classes[level] || 'bronze';
+  const getStatusBadgeClass = (status) => {
+    return status?.toLowerCase().replace(' ', '-');
   };
 
-  const getStatusBadgeClass = (status) => {
-    return status.toLowerCase().replace(' ', '-');
+  const getStatusCount = (status) => {
+    return users.filter(user => user.status === status).length;
   };
+
+  // Loading component
+  if (loading) {
+    return (
+      <div className="users-management">
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Loading users...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Error component
+  if (error) {
+    return (
+      <div className="users-management">
+        <div className="error-container">
+          <div className="error-message">
+            <h3>⚠️ Error Loading Data</h3>
+            <p>{error}</p>
+            <button onClick={() => {
+              setError(null);
+              fetchAllUsers();
+            }} className="retry-btn">
+              🔄 Retry
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="users-management">
@@ -367,7 +267,7 @@ const UsersManagement = () => {
       <div className="users-header">
         <div className="users-header-info">
           <h1>Users Management</h1>
-          <p>Manage customers, view booking history and feedback</p>
+          <p>Manage customers, view profiles and account information ({users.length} total)</p>
         </div>
       </div>
 
@@ -388,24 +288,11 @@ const UsersManagement = () => {
               </select>
             </div>
             
-            <div className="filter-group">
-              <label className="filter-label">Loyalty Level</label>
-              <select
-                value={loyaltyFilter}
-                onChange={(e) => setLoyaltyFilter(e.target.value)}
-                className="filter-select"
-              >
-                {loyaltyLevels.map(level => (
-                  <option key={level} value={level}>{level}</option>
-                ))}
-              </select>
-            </div>
-            
             <div className="filter-group search">
               <label className="filter-label">Search</label>
               <input
                 type="text"
-                placeholder="Search by name, email, phone, or preferred services..."
+                placeholder="Search by name, email, phone, or ID..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="filter-input"
@@ -421,24 +308,24 @@ const UsersManagement = () => {
       {/* Summary Stats Cards */}
       <div className="stats-cards">
         <div className="stats-card">
-          <div className="stats-card-count">{users.filter(u => u.status === 'Active').length}</div>
+          <div className="stats-card-count">{getStatusCount('Active')}</div>
           <div className="stats-badge active">Active Users</div>
         </div>
         <div className="stats-card">
-          <div className="stats-card-count">{users.filter(u => u.status === 'Inactive').length}</div>
+          <div className="stats-card-count">{getStatusCount('Inactive')}</div>
           <div className="stats-badge inactive">Inactive Users</div>
         </div>
         <div className="stats-card">
-          <div className="stats-card-count">{users.reduce((sum, u) => sum + u.totalBookings, 0)}</div>
-          <div className="stats-badge bookings">Total Bookings</div>
+          <div className="stats-card-count">{users.filter(u => u.emailConfirmed).length}</div>
+          <div className="stats-badge verified">Email Verified</div>
         </div>
         <div className="stats-card">
-          <div className="stats-card-count">{Math.round(users.reduce((sum, u) => sum + u.averageRating, 0) / users.length * 10) / 10}</div>
-          <div className="stats-badge rating">Avg Rating</div>
+          <div className="stats-card-count">{users.filter(u => u.lastLoginDate).length}</div>
+          <div className="stats-badge recent">Recent Logins</div>
         </div>
         <div className="stats-card">
-          <div className="stats-card-count">{users.filter(u => u.loyaltyLevel === 'Diamond' || u.loyaltyLevel === 'Platinum').length}</div>
-          <div className="stats-badge vip">VIP Customers</div>
+          <div className="stats-card-count">{users.filter(u => u.address && u.address !== 'No address provided').length}</div>
+          <div className="stats-badge address">With Address</div>
         </div>
       </div>
 
@@ -450,157 +337,165 @@ const UsersManagement = () => {
               <tr>
                 <th>Customer</th>
                 <th>Contact</th>
-                <th>Bookings</th>
-                <th>Loyalty</th>
-                <th>Rating</th>
-                <th>Total Spent</th>
+                <th>Address</th>
+                <th>Account Status</th>
+                <th>Last Login</th>
                 <th>Status</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {currentUsers.map((user) => {
-                const statusClass = getStatusBadgeClass(user.status);
-                const loyaltyClass = getLoyaltyBadgeClass(user.loyaltyLevel);
-                return (
-                  <tr key={user.id}>
-                    <td>
-                      <div className="user-info">
-                        <div className="user-avatar">{user.avatar}</div>
-                        <div className="user-details">
-                          <div className="user-name">{user.name}</div>
-                          <div className="user-id">ID: #{user.id}</div>
-                          <div className="join-date">Joined: {formatDate(user.joinDate)}</div>
+              {currentUsers.length === 0 ? (
+                <tr>
+                  <td colSpan="7" className="no-data">
+                    <div className="no-data-message">
+                      <p>👥 No users found</p>
+                      <p>Try adjusting your search or filter criteria</p>
+                    </div>
+                  </td>
+                </tr>
+              ) : (
+                currentUsers.map((user) => {
+                  const statusClass = getStatusBadgeClass(user.status);
+                  return (
+                    <tr key={user.id}>
+                      <td>
+                        <div className="user-info">
+                          <div className="user-avatar">{user.avatar}</div>
+                          <div className="user-details">
+                            <div className="user-name">{user.name}</div>
+                            <div className="user-id">ID: #{user.id}</div>
+                            <div className="join-date">Joined: {formatDate(user.joinDate)}</div>
+                          </div>
                         </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="contact-info">
-                        <div className="contact-email">{user.email}</div>
-                        <div className="contact-phone">{user.phone}</div>
-                        <div className="last-booking">Last: {formatDate(user.lastBooking)}</div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="booking-stats">
-                        <div className="total-bookings">Total: {user.totalBookings}</div>
-                        <div className="booking-breakdown">
-                          <span className="completed">✅ {user.completedBookings}</span>
-                          <span className="pending">⏳ {user.pendingBookings}</span>
-                          <span className="cancelled">❌ {user.cancelledBookings}</span>
+                      </td>
+                      <td>
+                        <div className="contact-info">
+                          <div className="contact-email">{user.email}</div>
+                          <div className="contact-phone">{user.phone}</div>
+                          <div className="email-status">
+                            {user.emailConfirmed ? (
+                              <span className="verified">✅ Verified</span>
+                            ) : (
+                              <span className="unverified">❌ Unverified</span>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    </td>
-                    <td>
-                      <span className={`loyalty-badge ${loyaltyClass}`}>
-                        {user.loyaltyLevel}
-                      </span>
-                    </td>
-                    <td>
-                      <div className="rating-info">
-                        <div className="rating-stars">{getRatingStars(user.averageRating)}</div>
-                        <div className="rating-number">{user.averageRating}</div>
-                      </div>
-                    </td>
-                    <td className="total-spent">
-                      {user.totalSpent}
-                    </td>
-                    <td>
-                      <select
-                        value={user.status}
-                        onChange={(e) => handleStatusChange(user.id, e.target.value)}
-                        className={`status-select ${statusClass}`}
-                      >
-                        {statusOptions.slice(1).map(status => (
-                          <option key={status} value={status}>{status}</option>
-                        ))}
-                      </select>
-                    </td>
-                    <td>
-                      <div className="action-buttons">
-                        <button
-                          onClick={() => handleView(user)}
-                          className="action-btn view"
-                          title="View Profile"
+                      </td>
+                      <td>
+                        <div className="address-info">
+                          <div className="address-text">
+                            {user.address === 'No address provided' ? (
+                              <span className="no-address">No address</span>
+                            ) : (
+                              <span className="has-address">{user.address}</span>
+                            )}
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="account-status">
+                          {user.emailConfirmed ? (
+                            <span className="account-verified">✅ Verified</span>
+                          ) : (
+                            <span className="account-pending">⏳ Pending</span>
+                          )}
+                        </div>
+                      </td>
+                      <td>
+                        <div className="last-login">
+                          {user.lastLoginDate ? (
+                            <span className="login-date">{formatDateTime(user.lastLoginDate)}</span>
+                          ) : (
+                            <span className="no-login">Never logged in</span>
+                          )}
+                        </div>
+                      </td>
+                      <td>
+                        <select
+                          value={user.status}
+                          onChange={(e) => handleStatusChange(user.id, e.target.value)}
+                          className={`status-select ${statusClass}`}
                         >
-                          👁️
-                        </button>
-                        <button
-                          onClick={() => handleViewHistory(user)}
-                          className="action-btn history"
-                          title="Booking History"
-                        >
-                          📋
-                        </button>
-                        <button
-                          onClick={() => handleViewFeedback(user)}
-                          className="action-btn feedback"
-                          title="Feedback History"
-                        >
-                          💬
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
+                          {statusOptions.slice(1).map(status => (
+                            <option key={status} value={status}>{status}</option>
+                          ))}
+                        </select>
+                      </td>
+                      <td>
+                        <div className="action-buttons">
+                          <button
+                            onClick={() => handleView(user)}
+                            className="action-btn view"
+                            title="View Profile"
+                          >
+                            👁️
+                          </button>
+                          <button
+                            onClick={() => handleViewHistory(user)}
+                            className="action-btn history"
+                            title="View Details"
+                            disabled
+                          >
+                            📋
+                          </button>
+                          <button
+                            onClick={() => handleViewFeedback(user)}
+                            className="action-btn feedback"
+                            title="Account Info"
+                            disabled
+                          >
+                            💬
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
             </tbody>
           </table>
         </div>
 
         {/* Pagination */}
-        <div className="pagination-container">
-          <div className="pagination-mobile">
-            <button
-              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-              className="pagination-btn"
-            >
-              Previous
-            </button>
-            <button
-              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-              disabled={currentPage === totalPages}
-              className="pagination-btn"
-            >
-              Next
-            </button>
-          </div>
-          <div className="pagination-desktop">
-            <div className="pagination-info">
-              Showing <span className="font-medium">{indexOfFirstItem + 1}</span> to{' '}
-              <span className="font-medium">{Math.min(indexOfLastItem, filteredUsers.length)}</span> of{' '}
-              <span className="font-medium">{filteredUsers.length}</span> results
-            </div>
-            <div>
-              <nav className="pagination-nav">
-                <button
-                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                  disabled={currentPage === 1}
-                  className="pagination-btn nav-btn"
-                >
-                  ❮
-                </button>
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map(number => (
+        {totalPages > 1 && (
+          <div className="pagination-container">
+            <div className="pagination-desktop">
+              <div className="pagination-info">
+                Showing <span className="font-medium">{indexOfFirstItem + 1}</span> to{' '}
+                <span className="font-medium">{Math.min(indexOfLastItem, filteredUsers.length)}</span> of{' '}
+                <span className="font-medium">{filteredUsers.length}</span> results
+              </div>
+              <div>
+                <nav className="pagination-nav">
                   <button
-                    key={number}
-                    onClick={() => setCurrentPage(number)}
-                    className={`pagination-btn ${currentPage === number ? 'active' : ''}`}
+                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                    disabled={currentPage === 1}
+                    className="pagination-btn nav-btn"
                   >
-                    {number}
+                    ❮
                   </button>
-                ))}
-                <button
-                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                  disabled={currentPage === totalPages}
-                  className="pagination-btn nav-btn"
-                >
-                  ❯
-                </button>
-              </nav>
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(number => (
+                    <button
+                      key={number}
+                      onClick={() => setCurrentPage(number)}
+                      className={`pagination-btn ${currentPage === number ? 'active' : ''}`}
+                    >
+                      {number}
+                    </button>
+                  ))}
+                  <button
+                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                    disabled={currentPage === totalPages}
+                    className="pagination-btn nav-btn"
+                  >
+                    ❯
+                  </button>
+                </nav>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Modal */}
@@ -610,8 +505,8 @@ const UsersManagement = () => {
             <div className="modal-content">
               <h3 className="modal-title">
                 {modalType === 'view' ? 'Customer Profile' : 
-                 modalType === 'history' ? 'Booking History' : 
-                 'Feedback History'}
+                 modalType === 'history' ? 'Account Details' : 
+                 'Account Information'}
               </h3>
               
               {modalType === 'view' && (
@@ -621,32 +516,17 @@ const UsersManagement = () => {
                     <div className="profile-info">
                       <h4>{selectedUser?.name}</h4>
                       <p className="profile-email">{selectedUser?.email}</p>
-                      <span className={`loyalty-badge ${getLoyaltyBadgeClass(selectedUser?.loyaltyLevel)}`}>
-                        {selectedUser?.loyaltyLevel} Member
+                      <span className={`status-badge ${getStatusBadgeClass(selectedUser?.status)}`}>
+                        {selectedUser?.status} User
                       </span>
                     </div>
                   </div>
                   
-                  <div className="profile-stats">
-                    <div className="stat-item">
-                      <span className="stat-label">Total Bookings</span>
-                      <span className="stat-value">{selectedUser?.totalBookings}</span>
-                    </div>
-                    <div className="stat-item">
-                      <span className="stat-label">Completed</span>
-                      <span className="stat-value">{selectedUser?.completedBookings}</span>
-                    </div>
-                    <div className="stat-item">
-                      <span className="stat-label">Total Spent</span>
-                      <span className="stat-value">{selectedUser?.totalSpent}</span>
-                    </div>
-                    <div className="stat-item">
-                      <span className="stat-label">Average Rating</span>
-                      <span className="stat-value">{selectedUser?.averageRating} ⭐</span>
-                    </div>
-                  </div>
-                  
                   <div className="profile-details-section">
+                    <div className="detail-row">
+                      <span className="detail-label">User ID:</span>
+                      <span className="detail-value">#{selectedUser?.id}</span>
+                    </div>
                     <div className="detail-row">
                       <span className="detail-label">Phone:</span>
                       <span className="detail-value">{selectedUser?.phone}</span>
@@ -660,78 +540,39 @@ const UsersManagement = () => {
                       <span className="detail-value">{formatDate(selectedUser?.joinDate || '')}</span>
                     </div>
                     <div className="detail-row">
-                      <span className="detail-label">Preferred Services:</span>
-                      <div className="preferred-services">
-                        {selectedUser?.preferredServices?.map((service, index) => (
-                          <span key={index} className="service-tag">{service}</span>
-                        ))}
-                      </div>
+                      <span className="detail-label">Email Status:</span>
+                      <span className="detail-value">
+                        {selectedUser?.emailConfirmed ? (
+                          <span className="verified">✅ Verified</span>
+                        ) : (
+                          <span className="unverified">❌ Not Verified</span>
+                        )}
+                      </span>
+                    </div>
+                    <div className="detail-row">
+                      <span className="detail-label">Last Login:</span>
+                      <span className="detail-value">
+                        {selectedUser?.lastLoginDate ? 
+                          formatDateTime(selectedUser.lastLoginDate) : 
+                          'Never logged in'
+                        }
+                      </span>
                     </div>
                   </div>
                 </div>
               )}
               
               {modalType === 'history' && (
-                <div className="history-list">
-                  {selectedUser?.bookingHistory?.length > 0 ? (
-                    selectedUser.bookingHistory.map((booking, index) => (
-                      <div key={index} className="history-item">
-                        <div className="history-header">
-                          <h4>{booking.serviceName}</h4>
-                          <span className={`status-badge ${getStatusBadgeClass(booking.status)}`}>
-                            {booking.status}
-                          </span>
-                        </div>
-                        <div className="history-details">
-                          <div className="history-info">
-                            <span>📅 {formatDateTime(booking.date)}</span>
-                            <span>👨‍🔧 {booking.technicianName}</span>
-                            <span>💰 {booking.price}</span>
-                          </div>
-                          {booking.rating && (
-                            <div className="history-rating">
-                              <span>Rating: {getRatingStars(booking.rating)} ({booking.rating})</span>
-                              {booking.feedback && (
-                                <p className="booking-feedback">"{booking.feedback}"</p>
-                              )}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="no-data">
-                      <p>No booking history available</p>
-                    </div>
-                  )}
+                <div className="info-message">
+                  <p>📋 Account details and booking history features will be available soon.</p>
+                  <p>Currently showing basic user profile information only.</p>
                 </div>
               )}
               
               {modalType === 'feedback' && (
-                <div className="feedback-list">
-                  {selectedUser?.feedbackHistory?.length > 0 ? (
-                    selectedUser.feedbackHistory.map((feedback, index) => (
-                      <div key={index} className="feedback-item">
-                        <div className="feedback-header">
-                          <h4>{feedback.serviceName}</h4>
-                          <div className="feedback-rating">
-                            {getRatingStars(feedback.rating)} ({feedback.rating}/5)
-                          </div>
-                        </div>
-                        <div className="feedback-content">
-                          <p className="feedback-text">"{feedback.feedback}"</p>
-                          <div className="feedback-meta">
-                            <span>👨‍🔧 {feedback.technicianName}</span>
-                            <span>📅 {formatDate(feedback.date)}</span>
-                          </div>
-                        </div>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="no-data">
-                      <p>No feedback available</p>
-                    </div>
-                  )}
+                <div className="info-message">
+                  <p>💬 Account information and feedback features will be available soon.</p>
+                  <p>Currently showing basic user profile information only.</p>
                 </div>
               )}
               
@@ -747,6 +588,166 @@ const UsersManagement = () => {
           </div>
         </div>
       )}
+
+      {/* Styling */}
+      <style jsx>{`
+        .loading-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 400px;
+          text-align: center;
+        }
+
+        .loading-spinner {
+          width: 40px;
+          height: 40px;
+          border: 4px solid #f3f3f3;
+          border-top: 4px solid #3498db;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+          margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        .error-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 400px;
+        }
+
+        .error-message {
+          text-align: center;
+          padding: 30px;
+          border: 1px solid #ff6b6b;
+          border-radius: 8px;
+          background: #ffe6e6;
+          max-width: 500px;
+        }
+
+        .error-message h3 {
+          color: #d63031;
+          margin-bottom: 10px;
+        }
+
+        .error-message p {
+          color: #636e72;
+          margin-bottom: 20px;
+        }
+
+        .retry-btn {
+          background: #0984e3;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 6px;
+          cursor: pointer;
+          font-size: 14px;
+        }
+
+        .retry-btn:hover {
+          background: #0b7dda;
+        }
+
+        .no-data {
+          text-align: center;
+          padding: 50px 20px;
+        }
+
+        .no-data-message p {
+          margin: 10px 0;
+          color: #666;
+        }
+
+        .no-data-message p:first-child {
+          font-size: 18px;
+          font-weight: 500;
+        }
+
+        .email-status .verified {
+          color: #28a745;
+          font-size: 12px;
+          font-weight: 500;
+        }
+
+        .email-status .unverified {
+          color: #dc3545;
+          font-size: 12px;
+          font-weight: 500;
+        }
+
+        .address-info .no-address {
+          color: #999;
+          font-style: italic;
+          font-size: 13px;
+        }
+
+        .address-info .has-address {
+          font-size: 13px;
+          color: #333;
+        }
+
+        .account-status .account-verified {
+          color: #28a745;
+          font-size: 13px;
+          font-weight: 500;
+        }
+
+        .account-status .account-pending {
+          color: #ffc107;
+          font-size: 13px;
+          font-weight: 500;
+        }
+
+        .last-login .login-date {
+          font-size: 12px;
+          color: #666;
+        }
+
+        .last-login .no-login {
+          font-size: 12px;
+          color: #999;
+          font-style: italic;
+        }
+
+        .action-buttons .action-btn:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+
+        .info-message {
+          text-align: center;
+          padding: 30px;
+          background: #f8f9fa;
+          border-radius: 8px;
+          color: #666;
+        }
+
+        .info-message p {
+          margin: 10px 0;
+        }
+
+        .stats-badge.verified { background: #28a745; }
+        .stats-badge.recent { background: #17a2b8; }
+        .stats-badge.address { background: #6f42c1; }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+          .users-table-container {
+            overflow-x: auto;
+          }
+          
+          .users-table {
+            min-width: 800px;
+          }
+        }
+      `}</style>
     </div>
   );
 };

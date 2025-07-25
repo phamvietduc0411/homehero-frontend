@@ -19,7 +19,7 @@ const BookingManagement = () => {
   const [formData, setFormData] = useState({});
   const [statistics, setStatistics] = useState({});
   
-  // NEW: State cho service và technician data
+  // Service và technician data
   const [serviceData, setServiceData] = useState({
     services: [],
     filteredServices: []
@@ -29,37 +29,42 @@ const BookingManagement = () => {
     filteredTechnicians: []
   });
   
-  // NEW: State cho address data
+  // Address data
   const [addressData, setAddressData] = useState({
     districts: [],
     wards: {},
   });
 
-  // API Base URL - adjust according to your backend
-  const API_BASE_URL = 'https://localhost:7190/api/Booking';
+  // API Base URL - Updated to Azure deployment
+  const API_BASE_URL = 'https://homeheroapi-c6hngtg0ezcyeggg.southeastasia-01.azurewebsites.net/api/Booking';
 
   const statusOptions = ['All', 'Pending', 'Confirmed', 'InProgress', 'Completed', 'Cancelled'];
 
-  // 🔧 NEW: Service và Technician API Functions
+  // Service và Technician API Functions
   const fetchServiceNames = async () => {
     try {
       const response = await fetch(`${API_BASE_URL.replace('/Booking', '')}/Service/names`);
       if (response.ok) {
         const data = await response.json();
-        console.log('Services loaded:', data);
         setServiceData(prev => ({ 
           ...prev, 
           services: data,
           filteredServices: data 
         }));
       } else {
-        console.warn('Service API not available, using fallback data');
-        // Fallback data
+        // Fallback data từ booking data hiện có
         const fallbackServices = [
-          'Air Conditioner Repair', 'Air Conditioner Installation', 'Air Conditioner Cleaning',
-          'Refrigerator Repair', 'Washing Machine Repair', 'Dishwasher Repair',
-          'Oven Repair', 'Microwave Repair', 'Water Heater Repair',
-          'Electrical Wiring', 'Plumbing Services', 'General Maintenance'
+          'Sửa lò vi sóng',
+          'Sửa máy giặt', 
+          'Lắp đặt đèn LED',
+          'Sửa vòi nước bị rò rỉ',
+          'Sửa bồn cầu',
+          'Sửa ổ cắm điện',
+          'Thông tắc cống',
+          'Sửa chữa cầu dao',
+          'Đóng tủ bếp theo yêu cầu',
+          'Lắp đặt điều hòa mới',
+          'Vệ sinh điều hòa'
         ];
         setServiceData(prev => ({ 
           ...prev, 
@@ -69,18 +74,6 @@ const BookingManagement = () => {
       }
     } catch (err) {
       console.error('Error fetching services:', err);
-      // Fallback data
-      const fallbackServices = [
-        'Air Conditioner Repair', 'Air Conditioner Installation', 'Air Conditioner Cleaning',
-        'Refrigerator Repair', 'Washing Machine Repair', 'Dishwasher Repair',
-        'Oven Repair', 'Microwave Repair', 'Water Heater Repair',
-        'Electrical Wiring', 'Plumbing Services', 'General Maintenance'
-      ];
-      setServiceData(prev => ({ 
-        ...prev, 
-        services: fallbackServices,
-        filteredServices: fallbackServices 
-      }));
     }
   };
 
@@ -89,19 +82,18 @@ const BookingManagement = () => {
       const response = await fetch(`${API_BASE_URL.replace('/Booking', '')}/Technician/names`);
       if (response.ok) {
         const data = await response.json();
-        console.log('Technicians loaded:', data);
         setTechnicianData(prev => ({ 
           ...prev, 
           technicians: data,
           filteredTechnicians: data 
         }));
       } else {
-        console.warn('Technician API not available, using fallback data');
-        // Fallback data
+        // Fallback data từ booking data hiện có
         const fallbackTechnicians = [
-          'Nguyen Van A', 'Tran Thi B', 'Le Van C', 'Pham Thi D',
-          'Hoang Van E', 'Vu Thi F', 'Do Van G', 'Bui Thi H',
-          'Dang Van I', 'Ngo Thi J', 'Ly Van K', 'Mai Thi L'
+          'Cuong Do',
+          'Hung Tran',
+          'Lan Vu',
+          'Mai Hoang'
         ];
         setTechnicianData(prev => ({ 
           ...prev, 
@@ -111,17 +103,6 @@ const BookingManagement = () => {
       }
     } catch (err) {
       console.error('Error fetching technicians:', err);
-      // Fallback data
-      const fallbackTechnicians = [
-        'Nguyen Van A', 'Tran Thi B', 'Le Van C', 'Pham Thi D',
-        'Hoang Van E', 'Vu Thi F', 'Do Van G', 'Bui Thi H',
-        'Dang Van I', 'Ngo Thi J', 'Ly Van K', 'Mai Thi L'
-      ];
-      setTechnicianData(prev => ({ 
-        ...prev, 
-        technicians: fallbackTechnicians,
-        filteredTechnicians: fallbackTechnicians 
-      }));
     }
   };
 
@@ -131,26 +112,10 @@ const BookingManagement = () => {
       return;
     }
 
-    try {
-      const response = await fetch(`${API_BASE_URL.replace('/Booking', '')}/Service/search?keyword=${encodeURIComponent(keyword)}`);
-      if (response.ok) {
-        const data = await response.json();
-        setServiceData(prev => ({ ...prev, filteredServices: data }));
-      } else {
-        // Fallback: filter locally
-        const filtered = serviceData.services.filter(service => 
-          service.toLowerCase().includes(keyword.toLowerCase())
-        );
-        setServiceData(prev => ({ ...prev, filteredServices: filtered }));
-      }
-    } catch (err) {
-      console.error('Error searching services:', err);
-      // Fallback: filter locally
-      const filtered = serviceData.services.filter(service => 
-        service.toLowerCase().includes(keyword.toLowerCase())
-      );
-      setServiceData(prev => ({ ...prev, filteredServices: filtered }));
-    }
+    const filtered = serviceData.services.filter(service => 
+      service.toLowerCase().includes(keyword.toLowerCase())
+    );
+    setServiceData(prev => ({ ...prev, filteredServices: filtered }));
   };
 
   const searchTechnicians = async (keyword) => {
@@ -159,63 +124,32 @@ const BookingManagement = () => {
       return;
     }
 
-    try {
-      const response = await fetch(`${API_BASE_URL.replace('/Booking', '')}/Technician/search?keyword=${encodeURIComponent(keyword)}`);
-      if (response.ok) {
-        const data = await response.json();
-        setTechnicianData(prev => ({ ...prev, filteredTechnicians: data }));
-      } else {
-        // Fallback: filter locally
-        const filtered = technicianData.technicians.filter(technician => 
-          technician.toLowerCase().includes(keyword.toLowerCase())
-        );
-        setTechnicianData(prev => ({ ...prev, filteredTechnicians: filtered }));
-      }
-    } catch (err) {
-      console.error('Error searching technicians:', err);
-      // Fallback: filter locally
-      const filtered = technicianData.technicians.filter(technician => 
-        technician.toLowerCase().includes(keyword.toLowerCase())
-      );
-      setTechnicianData(prev => ({ ...prev, filteredTechnicians: filtered }));
-    }
+    const filtered = technicianData.technicians.filter(technician => 
+      technician.toLowerCase().includes(keyword.toLowerCase())
+    );
+    setTechnicianData(prev => ({ ...prev, filteredTechnicians: filtered }));
   };
 
-  // 🏙️ NEW: Address API Functions
+  // Address API Functions
   const fetchDistricts = async () => {
     try {
       const response = await fetch(`${API_BASE_URL.replace('/Booking', '')}/Address/districts`);
       if (response.ok) {
         const data = await response.json();
-        console.log('Districts loaded:', data);
         setAddressData(prev => ({ ...prev, districts: data }));
       } else {
-        console.warn('Districts API not available, using fallback data');
-        // Fallback data nếu API chưa có
+        // Fallback data từ booking data hiện có
+        const fallbackDistricts = [
+          'Quận 1', 'Quận 3', 'Quận 9', 'QUẬN 9', 'quận 9',
+          'Hai Chau', 'Ba Dinh', 'District 1', 'District 3'
+        ];
         setAddressData(prev => ({ 
           ...prev, 
-          districts: [
-            'District 1', 'District 2', 'District 3', 'District 4', 'District 5',
-            'District 6', 'District 7', 'District 8', 'District 9', 'District 10',
-            'District 11', 'District 12', 'Binh Thanh', 'Go Vap', 'Phu Nuan',
-            'Tan Binh', 'Tan Phu', 'Thu Duc', 'Binh Tan', 'Cu Chi',
-            'Hoc Mon', 'Nha Be', 'Can Gio'
-          ]
+          districts: [...new Set(fallbackDistricts)] // Remove duplicates
         }));
       }
     } catch (err) {
       console.error('Error fetching districts:', err);
-      // Fallback data nếu API lỗi
-      setAddressData(prev => ({ 
-        ...prev, 
-        districts: [
-          'District 1', 'District 2', 'District 3', 'District 4', 'District 5',
-          'District 6', 'District 7', 'District 8', 'District 9', 'District 10',
-          'District 11', 'District 12', 'Binh Thanh', 'Go Vap', 'Phu Nuan',
-          'Tan Binh', 'Tan Phu', 'Thu Duc', 'Binh Tan', 'Cu Chi',
-          'Hoc Mon', 'Nha Be', 'Can Gio'
-        ]
-      }));
     }
   };
 
@@ -224,14 +158,11 @@ const BookingManagement = () => {
       const response = await fetch(`${API_BASE_URL.replace('/Booking', '')}/Address/wards?district=${encodeURIComponent(district)}`);
       if (response.ok) {
         const data = await response.json();
-        console.log(`Wards for ${district}:`, data);
         setAddressData(prev => ({ 
           ...prev, 
           wards: { ...prev.wards, [district]: data }
         }));
       } else {
-        console.warn(`Wards API not available for ${district}, using fallback data`);
-        // Fallback data mẫu
         const sampleWards = getSampleWards(district);
         setAddressData(prev => ({ 
           ...prev, 
@@ -240,56 +171,22 @@ const BookingManagement = () => {
       }
     } catch (err) {
       console.error('Error fetching wards:', err);
-      // Fallback data mẫu
-      const sampleWards = getSampleWards(district);
-      setAddressData(prev => ({ 
-        ...prev, 
-        wards: { ...prev.wards, [district]: sampleWards }
-      }));
     }
   };
 
-  // Helper function để tạo sample wards
   const getSampleWards = (district) => {
     const wardMapping = {
-      'District 1': ['Ben Nghe', 'Ben Thanh', 'Cau Kho', 'Cau Ong Lanh', 'Co Giang', 'Da Kao', 'Nguyen Cu Trinh', 'Nguyen Thai Binh', 'Pham Ngu Lao', 'Tan Dinh'],
-      'District 2': ['An Khanh', 'An Loi Dong', 'An Phu', 'Binh An', 'Binh Khanh', 'Binh Trung Dong', 'Binh Trung Tay', 'Cat Lai', 'Thao Dien', 'Thu Thiem'],
-      'District 3': ['Ward 1', 'Ward 2', 'Ward 3', 'Ward 4', 'Ward 5', 'Ward 6', 'Ward 7', 'Ward 8', 'Ward 9', 'Ward 10', 'Ward 11', 'Ward 12', 'Ward 13', 'Ward 14'],
-      'Binh Thanh': ['Ward 1', 'Ward 2', 'Ward 3', 'Ward 5', 'Ward 6', 'Ward 7', 'Ward 11', 'Ward 12', 'Ward 13', 'Ward 14', 'Ward 15', 'Ward 17', 'Ward 19', 'Ward 21', 'Ward 22', 'Ward 24', 'Ward 25', 'Ward 26', 'Ward 27', 'Ward 28']
+      'Quận 1': ['Phường Bến Nghé', 'Phường Bến Thành', 'Phường Cầu Kho'],
+      'Quận 3': ['Ward 5', 'Ward 6', 'Ward 7'],
+      'Quận 9': ['P.Long Thanh My', 'phường Long thạnh mỹ', 'Tăng nhơn phú B', 'phước long B'],
+      'District 1': ['Ben Thanh Ward'],
+      'District 3': ['Ward 5']
     };
     
-    return wardMapping[district] || [`Ward 1 of ${district}`, `Ward 2 of ${district}`, `Ward 3 of ${district}`];
+    return wardMapping[district] || [`Ward 1 of ${district}`, `Ward 2 of ${district}`];
   };
 
-  const createOrGetAddress = async (street, ward, district, city = "Ho Chi Minh City") => {
-    try {
-      const response = await fetch(`${API_BASE_URL.replace('/Booking', '')}/Address`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          street: street.trim(), 
-          ward: ward.trim(), 
-          district: district.trim(), 
-          city: city.trim() 
-        })
-      });
-      
-      if (response.ok) {
-        const result = await response.json();
-        console.log('Address created/found:', result);
-        return result.addressId;
-      } else {
-        const errorText = await response.text();
-        console.error('Address API error:', errorText);
-        throw new Error(`Address API failed: ${response.status} - ${errorText}`);
-      }
-    } catch (err) {
-      console.error('Error creating address:', err);
-      throw new Error(`Failed to create address: ${err.message}`);
-    }
-  };
-
-  // 🔌 Existing API Functions (giữ nguyên)
+  // Main API Functions
   const fetchAllBookings = async () => {
     try {
       setLoading(true);
@@ -310,68 +207,6 @@ const BookingManagement = () => {
     }
   };
 
-  const fetchBookingStatistics = async () => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/statistics`);
-      if (response.ok) {
-        const stats = await response.json();
-        setStatistics(stats);
-      }
-    } catch (err) {
-      console.error('Error fetching statistics:', err);
-    }
-  };
-
-  const searchBookings = async (searchTerm) => {
-    try {
-      if (!searchTerm.trim()) {
-        await fetchAllBookings();
-        return;
-      }
-      
-      setLoading(true);
-      const response = await fetch(`${API_BASE_URL}/search?searchTerm=${encodeURIComponent(searchTerm)}`);
-      
-      if (!response.ok) {
-        throw new Error(`Search failed: ${response.status}`);
-      }
-      
-      const data = await response.json();
-      setBookings(data);
-      setError(null);
-    } catch (err) {
-      setError(`Search failed: ${err.message}`);
-      console.error('Error searching bookings:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const filterBookingsByStatus = async (status) => {
-    try {
-      if (status === 'All') {
-        await fetchAllBookings();
-        return;
-      }
-      
-      setLoading(true);
-      const response = await fetch(`${API_BASE_URL}/filter?status=${encodeURIComponent(status)}`);
-      
-      if (!response.ok) {
-        throw new Error(`Filter failed: ${response.status}`);
-      }
-      
-      const data = await response.json();
-      setBookings(data);
-      setError(null);
-    } catch (err) {
-      setError(`Filter failed: ${err.message}`);
-      console.error('Error filtering bookings:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const updateBookingStatus = async (bookingId, newStatus) => {
     try {
       const response = await fetch(`${API_BASE_URL}/status?id=${bookingId}&status=${encodeURIComponent(newStatus)}`, {
@@ -385,13 +220,9 @@ const BookingManagement = () => {
         throw new Error(`Failed to update status: ${response.status}`);
       }
 
-      // Update local state
       setBookings(prev => prev.map(booking => 
         booking.bookingId === bookingId ? { ...booking, status: newStatus } : booking
       ));
-      
-      // Refresh data to ensure consistency
-      await fetchAllBookings();
       
     } catch (err) {
       alert(`Failed to update status: ${err.message}`);
@@ -399,11 +230,8 @@ const BookingManagement = () => {
     }
   };
 
-  // UPDATED: Create booking với address fields
   const createBooking = async (bookingData) => {
     try {
-      console.log('Sending booking data:', bookingData);
-      
       const response = await fetch(`${API_BASE_URL}`, {
         method: 'POST',
         headers: {
@@ -414,7 +242,6 @@ const BookingManagement = () => {
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error('Server error response:', errorText);
         throw new Error(`Failed to create booking: ${response.status} - ${errorText}`);
       }
 
@@ -428,7 +255,6 @@ const BookingManagement = () => {
     }
   };
 
-  // UPDATED: Update booking với address fields
   const updateBooking = async (bookingData) => {
     try {
       const response = await fetch(`${API_BASE_URL}`, {
@@ -468,51 +294,71 @@ const BookingManagement = () => {
     }
   };
 
-  // 🎯 Initial data loading
+  // Search và filter functions
+  const handleSearch = (searchTerm) => {
+    if (!searchTerm.trim()) {
+      setFilteredBookings(bookings);
+      return;
+    }
+
+    const filtered = bookings.filter(booking => 
+      booking.customerName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      booking.phone?.includes(searchTerm) ||
+      booking.serviceName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      booking.technicianName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      booking.bookingId?.toString().includes(searchTerm)
+    );
+    
+    setFilteredBookings(filtered);
+    setCurrentPage(1);
+  };
+
+  const handleStatusFilter = (status) => {
+    if (status === 'All') {
+      setFilteredBookings(bookings);
+    } else {
+      const filtered = bookings.filter(booking => booking.status === status);
+      setFilteredBookings(filtered);
+    }
+    setCurrentPage(1);
+  };
+
+  // Initial data loading
   useEffect(() => {
     fetchAllBookings();
-    fetchBookingStatistics();
-    fetchDistricts(); // NEW: Load districts on init
-    fetchServiceNames(); // NEW: Load services on init
-    fetchTechnicianNames(); // NEW: Load technicians on init
+    fetchDistricts();
+    fetchServiceNames();
+    fetchTechnicianNames();
   }, []);
 
-  // 🔍 Handle search with debounce
+  // Handle search with debounce
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      if (searchTerm.trim()) {
-        searchBookings(searchTerm);
-      } else if (statusFilter === 'All') {
-        fetchAllBookings();
-      }
+      handleSearch(searchTerm);
     }, 500);
 
     return () => clearTimeout(timeoutId);
-  }, [searchTerm]);
+  }, [searchTerm, bookings]);
 
-  // 🎛️ Handle status filter
+  // Handle status filter
   useEffect(() => {
-    setCurrentPage(1);
+    handleStatusFilter(statusFilter);
+  }, [statusFilter, bookings]);
+
+  // Update filtered bookings when bookings change
+  useEffect(() => {
     if (statusFilter === 'All' && !searchTerm.trim()) {
-      fetchAllBookings();
-    } else if (statusFilter !== 'All') {
-      filterBookingsByStatus(statusFilter);
+      setFilteredBookings(bookings);
     }
-  }, [statusFilter]);
-
-  // 📊 Update filtered bookings for local pagination/display
-  useEffect(() => {
-    setFilteredBookings(bookings);
-    setCurrentPage(1);
   }, [bookings]);
 
-  // 📄 Pagination logic
+  // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentBookings = filteredBookings.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(filteredBookings.length / itemsPerPage);
 
-  // 🎯 Event handlers
+  // Event handlers
   const handleStatusChange = async (bookingId, newStatus) => {
     await updateBookingStatus(bookingId, newStatus);
   };
@@ -523,26 +369,27 @@ const BookingManagement = () => {
     }
   };
 
-  // UPDATED: handleEdit với address fields
   const handleEdit = (booking) => {
     setSelectedBooking(booking);
     setFormData({
       bookingId: booking.bookingId,
-      customerName: booking.customerName,
-      phone: booking.phone,
-      serviceName: booking.serviceName,
-      technicianName: booking.technicianName,
+      customerName: booking.customerName || '',
+      phone: booking.phone || '',
+      serviceName: booking.serviceName || '',
+      technicianName: booking.technicianName || '',
       bookingDate: booking.bookingDate ? booking.bookingDate.substring(0, 16) : '',
-      status: booking.status,
-      // Address fields - sử dụng individual fields từ backend response
+      status: booking.status || 'Pending',
+      price: booking.price || '',
       street: booking.street || '',
-      city: booking.city || 'Ho Chi Minh City',
+      city: booking.city || 'TP.HCM',
       district: booking.district || '',
       ward: booking.ward || '',
-      note: booking.note || ''
+      note: booking.note || '',
+      problemDescription: booking.problemDescription || '',
+      preferredTimeSlot: booking.preferredTimeSlot || '',
+      urgencyLevel: booking.urgencyLevel || 'normal'
     });
     
-    // Load wards for selected district nếu có
     if (booking.district) {
       fetchWardsByDistrict(booking.district);
     }
@@ -557,7 +404,6 @@ const BookingManagement = () => {
     setShowModal(true);
   };
 
-  // UPDATED: handleAdd - bỏ price field
   const handleAdd = () => {
     setFormData({
       customerName: '',
@@ -566,21 +412,23 @@ const BookingManagement = () => {
       technicianName: '',
       bookingDate: '',
       status: 'Pending',
-      // Address fields
+      price: '',
       street: '',
-      city: 'Ho Chi Minh City',
+      city: 'TP.HCM',
       district: '',
       ward: '',
-      note: ''
+      note: '',
+      problemDescription: '',
+      preferredTimeSlot: '',
+      urgencyLevel: 'normal'
     });
     setModalType('add');
     setShowModal(true);
   };
 
-  // UPDATED: handleSave với validation và address handling
   const handleSave = async () => {
     try {
-      // Enhanced validation
+      // Validation
       if (!formData.customerName?.trim()) {
         alert('Customer name is required');
         return;
@@ -593,54 +441,14 @@ const BookingManagement = () => {
         alert('Service name is required');
         return;
       }
-      if (!formData.technicianName?.trim()) {
-        alert('Technician name is required');
-        return;
-      }
-      if (!formData.street?.trim() || !formData.district || !formData.ward) {
-        alert('Complete address (street, district, ward) is required');
-        return;
-      }
       if (!formData.bookingDate) {
         alert('Booking date is required');
         return;
       }
 
-      // Validate booking date is not in the past (only for new bookings)
-      if (modalType === 'add') {
-        const bookingDate = new Date(formData.bookingDate);
-        const now = new Date();
-        // Allow booking từ hiện tại trở đi (có thể booking trong ngày)
-        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        const bookingDay = new Date(bookingDate.getFullYear(), bookingDate.getMonth(), bookingDate.getDate());
-        
-        if (bookingDay < today) {
-          alert('Booking date cannot be in the past');
-          return;
-        }
-      }
-
-      console.log('Creating/Getting address for:', {
-        street: formData.street,
-        ward: formData.ward,
-        district: formData.district,
-        city: formData.city
-      });
-
-      // Create or get address ID
-      const addressId = await createOrGetAddress(
-        formData.street,
-        formData.ward,
-        formData.district,
-        formData.city
-      );
-
-      console.log('Address ID received:', addressId);
-
-      // Format booking date properly for C# DateTime
+      // Format booking date properly
       const formatDateForAPI = (dateString) => {
         const date = new Date(dateString);
-        // Format: "YYYY-MM-DDTHH:mm:ss" (ISO format without milliseconds)
         return date.toISOString().split('.')[0];
       };
 
@@ -649,14 +457,19 @@ const BookingManagement = () => {
         customerName: formData.customerName.trim(),
         phone: formData.phone.trim(),
         serviceName: formData.serviceName.trim(),
-        technicianName: formData.technicianName.trim(),
-        bookingDate: formatDateForAPI(formData.bookingDate), // Format date properly
+        technicianName: formData.technicianName?.trim() || '',
+        bookingDate: formatDateForAPI(formData.bookingDate),
         status: formData.status,
-        addressId: addressId,
+        price: parseFloat(formData.price) || 0,
+        street: formData.street?.trim() || '',
+        ward: formData.ward?.trim() || '',
+        district: formData.district?.trim() || '',
+        city: formData.city?.trim() || 'TP.HCM',
         note: formData.note?.trim() || '',
+        problemDescription: formData.problemDescription?.trim() || '',
+        preferredTimeSlot: formData.preferredTimeSlot?.trim() || '',
+        urgencyLevel: formData.urgencyLevel || 'normal'
       };
-
-      console.log('Sending booking data:', dataToSend);
 
       if (modalType === 'edit') {
         dataToSend.bookingId = formData.bookingId;
@@ -673,7 +486,6 @@ const BookingManagement = () => {
     }
   };
 
-  // Handle district change
   const handleDistrictChange = (district) => {
     setFormData({...formData, district, ward: ''});
     if (district) {
@@ -681,7 +493,7 @@ const BookingManagement = () => {
     }
   };
 
-  // 📅 Format date function
+  // Format functions
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
     return new Date(dateString).toLocaleString('vi-VN', {
@@ -693,12 +505,8 @@ const BookingManagement = () => {
     });
   };
 
-  // 💰 Format price function (still used for display)
   const formatPrice = (price) => {
     if (!price) return 'N/A';
-    if (typeof price === 'string' && price.includes('VND')) {
-      return price;
-    }
     if (typeof price === 'number') {
       return new Intl.NumberFormat('vi-VN', {
         style: 'currency',
@@ -708,12 +516,12 @@ const BookingManagement = () => {
     return price;
   };
 
-  // 📊 Calculate status counts from current data
+  // Calculate status counts
   const getStatusCount = (status) => {
     return bookings.filter(booking => booking.status === status).length;
   };
 
-  // 🎨 Loading component
+  // Loading component
   if (loading) {
     return (
       <div className="booking-management">
@@ -725,7 +533,7 @@ const BookingManagement = () => {
     );
   }
 
-  // ❌ Error component
+  // Error component
   if (error) {
     return (
       <div className="booking-management">
@@ -819,6 +627,7 @@ const BookingManagement = () => {
                 <th>Service</th>
                 <th>Technician</th>
                 <th>Date & Time</th>
+                <th>Address</th>
                 <th>Status</th>
                 <th>Price</th>
                 <th>Actions</th>
@@ -827,7 +636,7 @@ const BookingManagement = () => {
             <tbody>
               {currentBookings.length === 0 ? (
                 <tr>
-                  <td colSpan="8" className="no-data">
+                  <td colSpan="9" className="no-data">
                     <div className="no-data-message">
                       <p>📋 No bookings found</p>
                       <p>Try adjusting your search or filter criteria</p>
@@ -857,6 +666,14 @@ const BookingManagement = () => {
                       <td className="booking-date">
                         {formatDate(booking.bookingDate)}
                       </td>
+                      <td className="booking-address">
+                        <div className="address-short">
+                          {booking.street && booking.ward && booking.district 
+                            ? `${booking.street}, ${booking.ward}, ${booking.district}`
+                            : booking.address || 'N/A'
+                          }
+                        </div>
+                      </td>
                       <td>
                         <select
                           value={booking.status}
@@ -869,7 +686,7 @@ const BookingManagement = () => {
                         </select>
                       </td>
                       <td className="booking-price">
-                        {formatPrice(booking.price)}
+                        {formatPrice(booking.price || booking.totalPrice)}
                       </td>
                       <td>
                         <div className="action-buttons">
@@ -907,22 +724,6 @@ const BookingManagement = () => {
         {/* Pagination */}
         {totalPages > 1 && (
           <div className="pagination-container">
-            <div className="pagination-mobile">
-              <button
-                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                disabled={currentPage === 1}
-                className="pagination-btn"
-              >
-                Previous
-              </button>
-              <button
-                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                disabled={currentPage === totalPages}
-                className="pagination-btn"
-              >
-                Next
-              </button>
-            </div>
             <div className="pagination-desktop">
               <div className="pagination-info">
                 Showing <span className="font-medium">{indexOfFirstItem + 1}</span> to{' '}
@@ -961,7 +762,7 @@ const BookingManagement = () => {
         )}
       </div>
 
-      {/* UPDATED Modal với address fields */}
+      {/* Modal */}
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-container">
@@ -1091,8 +892,35 @@ const BookingManagement = () => {
                     </select>
                   </div>
                 </div>
+
+                {/* Price and Time Slot */}
+                <div className="form-row">
+                  <div className="form-group">
+                    <label className="form-label">Price (VND)</label>
+                    <input
+                      type="number"
+                      value={modalType === 'view' ? selectedBooking?.price || selectedBooking?.totalPrice || '' : formData.price || ''}
+                      onChange={(e) => setFormData({...formData, price: e.target.value})}
+                      disabled={modalType === 'view'}
+                      className="form-input"
+                      placeholder="Enter service price"
+                    />
+                  </div>
+                  
+                  <div className="form-group">
+                    <label className="form-label">Preferred Time Slot</label>
+                    <input
+                      type="text"
+                      value={modalType === 'view' ? selectedBooking?.preferredTimeSlot || '' : formData.preferredTimeSlot || ''}
+                      onChange={(e) => setFormData({...formData, preferredTimeSlot: e.target.value})}
+                      disabled={modalType === 'view'}
+                      className="form-input"
+                      placeholder="e.g., 14:00 - 16:00"
+                    />
+                  </div>
+                </div>
                 
-                {/* NEW: Address Fields */}
+                {/* Address Fields */}
                 <div className="form-section">
                   <h4 className="form-section-title">📍 Address Information</h4>
                   
@@ -1101,8 +929,9 @@ const BookingManagement = () => {
                       <label className="form-label">City</label>
                       <input
                         type="text"
-                        value="Ho Chi Minh City"
-                        disabled
+                        value={modalType === 'view' ? selectedBooking?.city || 'TP.HCM' : formData.city || 'TP.HCM'}
+                        onChange={(e) => setFormData({...formData, city: e.target.value})}
+                        disabled={modalType === 'view'}
                         className="form-input"
                       />
                     </div>
@@ -1110,7 +939,7 @@ const BookingManagement = () => {
                   
                   <div className="form-row">
                     <div className="form-group">
-                      <label className="form-label">District *</label>
+                      <label className="form-label">District</label>
                       <select
                         value={modalType === 'view' ? selectedBooking?.district || '' : formData.district || ''}
                         onChange={(e) => modalType !== 'view' && handleDistrictChange(e.target.value)}
@@ -1125,7 +954,7 @@ const BookingManagement = () => {
                     </div>
                     
                     <div className="form-group">
-                      <label className="form-label">Ward *</label>
+                      <label className="form-label">Ward</label>
                       <select
                         value={modalType === 'view' ? selectedBooking?.ward || '' : formData.ward || ''}
                         onChange={(e) => modalType !== 'view' && setFormData({...formData, ward: e.target.value})}
@@ -1146,30 +975,100 @@ const BookingManagement = () => {
                   </div>
                   
                   <div className="form-group full-width">
-                    <label className="form-label">Street Address *</label>
+                    <label className="form-label">Street Address</label>
                     <input
                       type="text"
-                      value={modalType === 'view' ? selectedBooking?.street || selectedBooking?.address || '' : formData.street || ''}
+                      value={modalType === 'view' ? selectedBooking?.street || '' : formData.street || ''}
                       onChange={(e) => modalType !== 'view' && setFormData({...formData, street: e.target.value})}
                       disabled={modalType === 'view'}
                       className="form-input"
-                      placeholder="Enter street address (e.g., 123 Nguyen Hue)"
+                      placeholder="Enter street address"
                     />
                   </div>
+                </div>
+
+                {/* Problem Description and Urgency */}
+                <div className="form-row">
+                  <div className="form-group">
+                    <label className="form-label">Urgency Level</label>
+                    <select
+                      value={modalType === 'view' ? selectedBooking?.urgencyLevel || 'normal' : formData.urgencyLevel || 'normal'}
+                      onChange={(e) => setFormData({...formData, urgencyLevel: e.target.value})}
+                      disabled={modalType === 'view'}
+                      className="form-select"
+                    >
+                      <option value="normal">Normal</option>
+                      <option value="urgent">Urgent</option>
+                    </select>
+                  </div>
+                </div>
+                
+                {/* Problem Description */}
+                <div className="form-group full-width">
+                  <label className="form-label">Problem Description</label>
+                  <textarea
+                    value={modalType === 'view' ? selectedBooking?.problemDescription || '' : formData.problemDescription || ''}
+                    onChange={(e) => setFormData({...formData, problemDescription: e.target.value})}
+                    disabled={modalType === 'view'}
+                    rows={3}
+                    className="form-textarea"
+                    placeholder="Describe the problem or service requirements..."
+                  />
                 </div>
                 
                 {/* Note */}
                 <div className="form-group full-width">
-                  <label className="form-label">Note</label>
+                  <label className="form-label">Additional Notes</label>
                   <textarea
                     value={modalType === 'view' ? selectedBooking?.note || '' : formData.note || ''}
                     onChange={(e) => setFormData({...formData, note: e.target.value})}
                     disabled={modalType === 'view'}
-                    rows={3}
+                    rows={2}
                     className="form-textarea"
                     placeholder="Add any additional notes..."
                   />
                 </div>
+
+                {/* View Mode: Additional Info Display */}
+                {modalType === 'view' && selectedBooking && (
+                  <div className="form-section">
+                    <h4 className="form-section-title">📊 Additional Information</h4>
+                    
+                    <div className="form-row">
+                      <div className="form-group">
+                        <label className="form-label">Total Price</label>
+                        <input
+                          type="text"
+                          value={formatPrice(selectedBooking.totalPrice || selectedBooking.price)}
+                          disabled
+                          className="form-input"
+                        />
+                      </div>
+                      
+                      <div className="form-group">
+                        <label className="form-label">Urgency Fee</label>
+                        <input
+                          type="text"
+                          value={formatPrice(selectedBooking.urgencyFee || 0)}
+                          disabled
+                          className="form-input"
+                        />
+                      </div>
+                    </div>
+
+                    {selectedBooking.address && (
+                      <div className="form-group full-width">
+                        <label className="form-label">Full Address</label>
+                        <input
+                          type="text"
+                          value={selectedBooking.address}
+                          disabled
+                          className="form-input"
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
               
               <div className="modal-actions">
@@ -1193,7 +1092,7 @@ const BookingManagement = () => {
         </div>
       )}
 
-      {/* Styling for new components */}
+      {/* Styling */}
       <style jsx>{`
         .loading-container {
           display: flex;
@@ -1274,7 +1173,15 @@ const BookingManagement = () => {
           font-weight: 500;
         }
 
-        /* NEW: Address form styling */
+        .address-short {
+          max-width: 200px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          font-size: 13px;
+          color: #666;
+        }
+
         .form-section {
           margin: 20px 0;
           padding: 15px;
@@ -1294,31 +1201,17 @@ const BookingManagement = () => {
           width: 100%;
         }
 
-        .form-input:disabled {
+        .form-input:disabled, .form-select:disabled, .form-textarea:disabled {
           background: #f5f5f5;
           color: #666;
         }
 
-        .form-select:disabled {
-          background: #f5f5f5;
-          color: #666;
-        }
-
-        /* NEW: Searchable dropdown styling */
         .searchable-dropdown {
           position: relative;
         }
 
         .searchable-dropdown input[list] {
           width: 100%;
-        }
-
-        .searchable-dropdown input[list]::-webkit-calendar-picker-indicator {
-          display: none;
-        }
-
-        /* Enhanced form input for searchable fields */
-        .form-input[list] {
           background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
           background-repeat: no-repeat;
           background-position: right 12px center;
@@ -1330,28 +1223,48 @@ const BookingManagement = () => {
           background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%230984e3' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
         }
 
-        /* Loading and data states */
-        .form-input[list][placeholder*="search"]:empty::before {
-          content: "Loading...";
-          color: #999;
+        .form-textarea {
+          width: 100%;
+          padding: 10px;
+          border: 1px solid #ddd;
+          border-radius: 6px;
+          font-family: inherit;
+          font-size: 14px;
+          resize: vertical;
+          min-height: 80px;
         }
 
-        .form-label:has(~ .form-input[required])::after,
-        .form-label:has(~ .form-select[required])::after {
-          content: " *";
-          color: #e74c3c;
+        .form-textarea:focus {
+          outline: none;
+          border-color: #0984e3;
+          box-shadow: 0 0 0 3px rgba(9, 132, 227, 0.1);
         }
 
-        /* Validation styles */
-        .form-input.error,
-        .form-select.error {
-          border-color: #e74c3c;
-          background-color: #fdf2f2;
+        .modal-container {
+          max-height: 90vh;
+          overflow-y: auto;
         }
 
-        .form-input.error:focus,
-        .form-select.error:focus {
-          box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+        .modal-form {
+          max-height: 70vh;
+          overflow-y: auto;
+          padding-right: 10px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+          .form-row {
+            flex-direction: column;
+          }
+          
+          .form-group {
+            margin-bottom: 15px;
+          }
+          
+          .address-short {
+            max-width: none;
+            white-space: normal;
+          }
         }
       `}</style>
     </div>

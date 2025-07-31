@@ -3,7 +3,8 @@ import UserSidebarMenu from '../../components/User/UserSidebarMenu';
 import '../../styles/User/DashboardPage.css'; // General dashboard styles
 import '../../styles/User/UserSidebarMenu.css'; // Sidebar specific styles
 import '../../styles/User/Payment.css'; // Specific styles for the Payment page
-import QR from '../../assets/img/download.png'
+import QR from '../../assets/img/download.png';
+import VietQROfficial from './PaymentQRSection';
 
 
 const Payment = ({ userData, onBackToTracking }) => {
@@ -285,65 +286,68 @@ const Payment = ({ userData, onBackToTracking }) => {
               <h3>💰 Chọn phương thức thanh toán</h3>
               <div className="payment-methods">
                 
-                {/* Cash Payment */}
-                <div 
-                  className={`payment-option ${paymentMethod === 'cash' ? 'selected' : ''}`}
-                  onClick={() => handlePaymentMethodSelect('cash')}
-                >
-                  <div className="payment-header">
-                    <div className="payment-icon">💵</div>
-                    <div className="payment-info">
-                      <h4>Thanh toán tiền mặt</h4>
-                      <p>Thanh toán trực tiếp cho thợ sửa chữa</p>
-                    </div>
-                    <div className="payment-radio">
-                      <input 
-                        type="radio" 
-                        name="paymentMethod"
-                        value="cash"
-                        checked={paymentMethod === 'cash'}
-                        onChange={() => {}}
-                      />
-                    </div>
-                  </div>
-                  {paymentMethod === 'cash' && (
-                    <div className="payment-details">
-                      <div className="cash-instructions">
-                        <h5>Hướng dẫn thanh toán tiền mặt:</h5>
-                        <ul>
-                          <li>Thanh toán trực tiếp cho thợ sửa chữa tại hiện trường</li>
-                          <li>Số tiền: <strong>{selectedBooking.formattedPrice}</strong></li>
-                          <li>✅ <strong>Xác nhận để tạo giao dịch trong hệ thống</strong></li>
-                          <li>Thợ sẽ thu tiền và chuyển hoa hồng về cho HomeHero</li>
-                          <li>Bạn sẽ nhận được email xác nhận khi hoàn tất</li>
-                        </ul>
-                        
-                        {!cashConfirmed && paymentStatus === 'pending' && (
-                          <button 
-                            onClick={handleCashPayment}
-                            className="confirm-payment-btn"
-                          >
-                            ✅ Xác nhận thanh toán tiền mặt
-                          </button>
-                        )}
-                        
-                        {paymentStatus === 'processing' && (
-                          <div className="processing-status">
-                            <div className="spinner"></div>
-                            <span>Đang tạo giao dịch...</span>
-                          </div>
-                        )}
-                        
-                        {paymentStatus === 'completed' && (
-                          <div className="success-status">
-                            <span className="success-icon">🎉</span>
-                            <span>Giao dịch đã được tạo! Chờ xác nhận từ thợ.</span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </div>
+                {/* ==================== CASH PAYMENT - TEMPORARILY DISABLED ==================== */}
+    {/* 
+    <div 
+      className={`payment-option ${paymentMethod === 'cash' ? 'selected' : ''}`}
+      onClick={() => handlePaymentMethodSelect('cash')}
+    >
+      <div className="payment-header">
+        <div className="payment-icon">💵</div>
+        <div className="payment-info">
+          <h4>Thanh toán tiền mặt</h4>
+          <p>Thanh toán trực tiếp cho thợ sửa chữa</p>
+        </div>
+        <div className="payment-radio">
+          <input 
+            type="radio" 
+            name="paymentMethod"
+            value="cash"
+            checked={paymentMethod === 'cash'}
+            onChange={() => {}}
+          />
+        </div>
+      </div>
+      {paymentMethod === 'cash' && (
+        <div className="payment-details">
+          <div className="cash-instructions">
+            <h5>Hướng dẫn thanh toán tiền mặt:</h5>
+            <ul>
+              <li>Thanh toán trực tiếp cho thợ sửa chữa tại hiện trường</li>
+              <li>Số tiền: <strong>{selectedBooking.formattedPrice}</strong></li>
+              <li>✅ <strong>Xác nhận để tạo giao dịch trong hệ thống</strong></li>
+              <li>Thợ sẽ thu tiền và chuyển hoa hồng về cho HomeHero</li>
+              <li>Bạn sẽ nhận được email xác nhận khi hoàn tất</li>
+            </ul>
+            
+            {!cashConfirmed && paymentStatus === 'pending' && (
+              <button 
+                onClick={handleCashPayment}
+                className="confirm-payment-btn"
+              >
+                ✅ Xác nhận thanh toán tiền mặt
+              </button>
+            )}
+            
+            {paymentStatus === 'processing' && (
+              <div className="processing-status">
+                <div className="spinner"></div>
+                <span>Đang tạo giao dịch...</span>
+              </div>
+            )}
+            
+            {paymentStatus === 'completed' && (
+              <div className="success-status">
+                <span className="success-icon">🎉</span>
+                <span>Giao dịch đã được tạo! Chờ xác nhận từ thợ.</span>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+    */}
+    {/* ==================== END CASH PAYMENT ==================== */}
 
                 {/* Bank Transfer */}
                 <div 
@@ -367,117 +371,15 @@ const Payment = ({ userData, onBackToTracking }) => {
                     </div>
                   </div>
                   {paymentMethod === 'transfer' && (
-                    <div className="payment-details">
-                      <div className="transfer-info">
-                        <h5>Thông tin chuyển khoản:</h5>
-                        
-                        <div className="bank-details">
-                          <div className="bank-info-grid">
-                            <div className="bank-item">
-                              <span className="label">Ngân hàng:</span>
-                              <span className="value">{bankInfo.bankName}</span>
-                              <button 
-                                onClick={() => copyToClipboard(bankInfo.bankName)}
-                                className="copy-btn"
-                              >
-                                📋
-                              </button>
-                            </div>
-                            
-                            <div className="bank-item">
-                              <span className="label">Số tài khoản:</span>
-                              <span className="value">{bankInfo.accountNumber}</span>
-                              <button 
-                                onClick={() => copyToClipboard(bankInfo.accountNumber)}
-                                className="copy-btn"
-                              >
-                                📋
-                              </button>
-                            </div>
-                            
-                            <div className="bank-item">
-                              <span className="label">Tên tài khoản:</span>
-                              <span className="value">{bankInfo.accountName}</span>
-                              <button 
-                                onClick={() => copyToClipboard(bankInfo.accountName)}
-                                className="copy-btn"
-                              >
-                                📋
-                              </button>
-                            </div>
-                            
-                            <div className="bank-item">
-                              <span className="label">Số tiền:</span>
-                              <span className="value amount">{selectedBooking.formattedPrice}</span>
-                              <button 
-                                onClick={() => copyToClipboard(selectedBooking.totalPrice.toString())}
-                                className="copy-btn"
-                              >
-                                📋
-                              </button>
-                            </div>
-                            
-                            <div className="bank-item">
-                              <span className="label">Nội dung CK:</span>
-                              <span className="value">HomeHero {selectedBooking.bookingCode}</span>
-                              <button 
-                                onClick={() => copyToClipboard(`HomeHero ${selectedBooking.bookingCode}`)}
-                                className="copy-btn"
-                              >
-                                📋
-                              </button>
-                            </div>
-                          </div>
-                          
-                          <div className="qr-section">
-                            <h6>QR Code chuyển khoản:</h6>
-                            <div className="qr-code">
-                              <img 
-                                src={bankInfo.qrCode} 
-                                alt="QR Code" 
-                                className="qr-image"
-                              />
-                              <p>Quét mã QR để chuyển khoản nhanh</p>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        <div className="transfer-instructions">
-                          <h6>Lưu ý quan trọng:</h6>
-                          <ul>
-                            <li>Vui lòng chuyển khoản đúng số tiền và nội dung</li>
-                            <li>✅ <strong>Xác nhận để tạo giao dịch trong hệ thống</strong></li>
-                            <li>HomeHero sẽ xác minh và chuyển tiền cho thợ</li>
-                            <li>Thời gian xử lý: 1-2 giờ làm việc</li>
-                            <li>Liên hệ hotline nếu có vấn đề: 1900-xxxx</li>
-                          </ul>
-                        </div>
-                        
-                        {!transferConfirmed && paymentStatus === 'pending' && (
-                          <button 
-                            onClick={handleTransferPayment}
-                            className="confirm-payment-btn"
-                          >
-                            ✅ Xác nhận đã chuyển khoản
-                          </button>
-                        )}
-                        
-                        {paymentStatus === 'processing' && (
-                          <div className="processing-status">
-                            <div className="spinner"></div>
-                            <span>Đang tạo giao dịch...</span>
-                          </div>
-                        )}
-                        
-                        {paymentStatus === 'completed' && (
-                          <div className="success-status">
-                            <span className="success-icon">🎉</span>
-                            <span>Giao dịch đã được tạo! Chờ admin xác minh.</span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  )}
+  <VietQROfficial 
+    selectedBooking={selectedBooking}
+    bankInfo={bankInfo}
+    copyToClipboard={copyToClipboard}
+    handleTransferPayment={handleTransferPayment}
+    transferConfirmed={transferConfirmed}
+    paymentStatus={paymentStatus}
+  />
+)}
                 </div>
               </div>
             </div>

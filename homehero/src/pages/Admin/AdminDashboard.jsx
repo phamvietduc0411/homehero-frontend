@@ -4,8 +4,262 @@ import BookingManagement from './BookingManagement';
 import TechniciansManagement from './TechniciansManagement';
 import UsersManagement from './UsersManagement';
 
+function AdminAuth({ onAuthenticated }) {
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
+  const ADMIN_PASSWORD = 'toilaadmin';
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError('');
+
+    // Simulate authentication delay
+    setTimeout(() => {
+      if (password === ADMIN_PASSWORD) {
+        // Store authentication in sessionStorage (will be cleared when browser closes)
+        sessionStorage.setItem('adminAuthenticated', 'true');
+        onAuthenticated(true);
+      } else {
+        setError('Mã xác nhận không đúng. Vui lòng thử lại.');
+        setPassword('');
+      }
+      setIsLoading(false);
+    }, 500);
+  };
+
+  return (
+    <div className="admin-auth-container">
+      <div className="auth-card">
+        <div className="auth-header">
+          <div className="auth-logo">
+            <img 
+              src="https://res.cloudinary.com/dsq0mei34/image/upload/v1749056947/z6661153873542_d6e54c1859ad70b70e7aeec88c6ae88a_bieazp.jpg" 
+              alt="Home Hero Logo" 
+              className="auth-logo-img"
+            />
+            <h2>Home Hero Admin</h2>
+          </div>
+          <p className="auth-subtitle">Vui lòng nhập mã xác nhận để truy cập trang quản trị</p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="auth-form">
+          <div className="form-group">
+            <label htmlFor="password">Mã xác nhận Admin:</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Nhập mã xác nhận..."
+              className={error ? 'error' : ''}
+              disabled={isLoading}
+              autoFocus
+            />
+            {error && <span className="error-message">{error}</span>}
+          </div>
+
+          <button 
+            type="submit" 
+            className={`auth-btn ${isLoading ? 'loading' : ''}`}
+            disabled={isLoading || !password.trim()}
+          >
+            {isLoading ? (
+              <>
+                <span className="loading-spinner"></span>
+                Đang xác thực...
+              </>
+            ) : (
+              <>
+                🔐 Xác thực
+              </>
+            )}
+          </button>
+        </form>
+
+        <div className="auth-footer">
+          <p>🔒 Trang này được bảo vệ bởi mã xác nhận</p>
+        </div>
+      </div>
+
+      <style jsx>{`
+        .admin-auth-container {
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          padding: 20px;
+        }
+
+        .auth-card {
+          background: white;
+          padding: 40px;
+          border-radius: 16px;
+          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+          max-width: 400px;
+          width: 100%;
+          text-align: center;
+        }
+
+        .auth-header {
+          margin-bottom: 30px;
+        }
+
+        .auth-logo {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 15px;
+          margin-bottom: 20px;
+        }
+
+        .auth-logo-img {
+          width: 60px;
+          height: 60px;
+          object-fit: contain;
+          border-radius: 12px;
+        }
+
+        .auth-logo h2 {
+          margin: 0;
+          color: #1f2937;
+          font-size: 24px;
+          font-weight: 700;
+        }
+
+        .auth-subtitle {
+          color: #6b7280;
+          margin: 0;
+          font-size: 14px;
+          line-height: 1.5;
+        }
+
+        .auth-form {
+          margin-bottom: 20px;
+        }
+
+        .form-group {
+          margin-bottom: 20px;
+          text-align: left;
+        }
+
+        .form-group label {
+          display: block;
+          margin-bottom: 8px;
+          color: #374151;
+          font-weight: 500;
+          font-size: 14px;
+        }
+
+        .form-group input {
+          width: 100%;
+          padding: 12px 16px;
+          border: 2px solid #e5e7eb;
+          border-radius: 8px;
+          font-size: 16px;
+          transition: all 0.2s ease;
+          box-sizing: border-box;
+        }
+
+        .form-group input:focus {
+          outline: none;
+          border-color: #3b82f6;
+          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-group input.error {
+          border-color: #ef4444;
+        }
+
+        .form-group input:disabled {
+          background-color: #f9fafb;
+          cursor: not-allowed;
+        }
+
+        .error-message {
+          color: #ef4444;
+          font-size: 12px;
+          margin-top: 5px;
+          display: block;
+        }
+
+        .auth-btn {
+          width: 100%;
+          background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+          color: white;
+          border: none;
+          padding: 14px 20px;
+          border-radius: 8px;
+          font-size: 16px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+        }
+
+        .auth-btn:hover:not(:disabled) {
+          background: linear-gradient(135deg, #2563eb, #1e40af);
+          transform: translateY(-1px);
+          box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.4);
+        }
+
+        .auth-btn:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+          transform: none;
+        }
+
+        .auth-btn.loading {
+          cursor: not-allowed;
+        }
+
+        .loading-spinner {
+          width: 16px;
+          height: 16px;
+          border: 2px solid #ffffff40;
+          border-top: 2px solid #ffffff;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        .auth-footer {
+          border-top: 1px solid #e5e7eb;
+          padding-top: 20px;
+          margin-top: 20px;
+        }
+
+        .auth-footer p {
+          color: #9ca3af;
+          font-size: 12px;
+          margin: 0;
+        }
+
+        @media (max-width: 480px) {
+          .auth-card {
+            padding: 30px 20px;
+          }
+          
+          .auth-logo h2 {
+            font-size: 20px;
+          }
+        }
+      `}</style>
+    </div>
+  );
+}
 function AdminDashboard() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [activeMenu, setActiveMenu] = useState('Dashboard');
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -14,6 +268,18 @@ function AdminDashboard() {
   // API Base URL
   const API_BASE_URL = 'https://homeheroapi-c6hngtg0ezcyeggg.southeastasia-01.azurewebsites.net/api/Dashboard';
 
+  useEffect(() => {
+  const authStatus = sessionStorage.getItem('adminAuthenticated');
+  if (authStatus === 'true') {
+    setIsAuthenticated(true);
+  }
+}, []);
+
+// Logout function
+const handleLogout = () => {
+  sessionStorage.removeItem('adminAuthenticated');
+  setIsAuthenticated(false);
+};
   // Fetch dashboard statistics
   const fetchDashboardStats = async () => {
     try {
@@ -36,10 +302,13 @@ function AdminDashboard() {
   };
 
   useEffect(() => {
-    if (activeMenu === 'Dashboard') {
-      fetchDashboardStats();
-    }
-  }, [activeMenu]);
+  if (activeMenu === 'Dashboard' && isAuthenticated) { // ← THÊM && isAuthenticated
+    fetchDashboardStats();
+  }
+}, [activeMenu, isAuthenticated]);
+if (!isAuthenticated) {
+  return <AdminAuth onAuthenticated={setIsAuthenticated} />;
+}
 
   // Get stats data for cards
   const getStatsData = () => {
@@ -240,7 +509,10 @@ function AdminDashboard() {
               </div>
             ))}
           </div>
-          
+          <div className="nav-item logout-btn" onClick={handleLogout}>
+  <span className="nav-icon">🚪</span>
+  <span className="nav-text">Đăng xuất</span>
+</div>
           <div className="nav-section">
             <div className="nav-section-title">ACCOUNT PAGES</div>
             {menuItems.filter(item => item.isAccount).map((item, index) => (
@@ -289,10 +561,10 @@ function AdminDashboard() {
                     <span className="header-icon">🔔</span>
                     <span className="badge">3</span>
                   </div>
-                  <button className="profile-btn">
-                    <span className="user-icon">👤</span>
-                    Admin
-                  </button>
+                  <button className="profile-btn" onClick={handleLogout} title="Đăng xuất">
+  <span className="user-icon">👤</span>
+  Admin
+</button>
                 </div>
               </div>
             </header>
